@@ -1,5 +1,5 @@
 ## Hide Read Categories in GMail
 
-![test](https://github.com/dblock/hide-read-categories/workflows/build%20CI/badge.svg)
+[![build](https://github.com/dblock/hide-read-categories/actions/workflows/build.yaml/badge.svg)](https://github.com/dblock/hide-read-categories/actions/workflows/build.yaml)
 
 A GMail Chrome extension that hides categories without unread messages.
