@@ -4,6 +4,8 @@
 
 A GMail Chrome extension that hides categories without unread messages.
 
+![](demo.gif)
+
 Built on top of [gmail.js](https://github.com/KartikTalwar/gmail.js) and its [boilerplate](https://github.com/josteink/gmailjs-node-boilerplate).
 
 ### Contributing
