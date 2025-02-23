@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "A GMail extension that hides read categories.",
-    "short_name": "hide-read-categories",
+    "short_name": "gmail-hide-read-categories",
     "version": "0.0.1",
     "author": "Daniel Doubrovkine <dblock@dblock.org>",
     "description": "A GMail extension that hides read categories.",
