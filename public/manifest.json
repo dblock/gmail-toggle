@@ -13,32 +13,17 @@
   },
   "web_accessible_resources": [
     {
-      "resources": [
-        "icons/*.png"
-      ],
-      "matches": [
-        "<all_urls>"
-      ]
+      "resources": ["icons/*.png"],
+      "matches": ["<all_urls>"]
     }
   ],
   "content_scripts": [
     {
-      "matches": [
-        "*://mail.google.com/*"
-      ],
-      "js": [
-        "extension.js",
-        "gmailJsLoader.js"
-      ],
+      "matches": ["*://mail.google.com/*"],
+      "js": ["extension.js", "gmailJsLoader.js"],
       "run_at": "document_start"
     }
   ],
-  "host_permissions": [
-    "https://mail.google.com/*",
-    "https://*.google.com/*"
-  ],
-  "permissions": [
-    "activeTab",
-    "scripting"
-  ]
+  "host_permissions": ["https://mail.google.com/*", "https://*.google.com/*"],
+  "permissions": ["activeTab", "scripting"]
 }

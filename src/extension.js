@@ -15,9 +15,14 @@ function hideReadCategories() {
   $.each($(".nU"), (index, element) => {
     if (!$(element).hasClass("n1")) {
       const outerNode = $(element.parentNode.parentNode);
-      if (!$(outerNode.children()[0]).hasClass("qj")) {
-        if ($(element).children()[0].getAttribute("tabindex") == "-1") {
-          outerNode.hide();
+      if (outerNode) {
+        if (!$(outerNode.children()[0]).hasClass("qj")) {
+          const firstChild = $(element).children()[0];
+          if (firstChild) {
+            if (firstChild.getAttribute("tabindex") == "-1") {
+              outerNode.hide();
+            }
+          }
         }
       }
     }
@@ -65,3 +70,5 @@ function startExtension(gmail) {
     addButton();
   });
 }
+
+export { startExtension, hideReadCategories };
