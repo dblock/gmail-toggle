@@ -32,7 +32,7 @@ function addButton() {
       return img;
     })(),
     () => hideReadCategories(),
-    "asa"
+    "asa",
   );
 
   const observer = new MutationObserver((mutationsList) => {
