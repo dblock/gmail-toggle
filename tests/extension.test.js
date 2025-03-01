@@ -1,8 +1,7 @@
-import { startExtension, hideReadCategories } from 'extension';
+import { startExtension, hideReadCategories } from "extension";
 
-describe('Extension', () => {
-  describe('#startExtension', () => {
-
+describe("Extension", () => {
+  describe("#startExtension", () => {
     let mockGmail;
     let extensionButton;
     let extensionObserver;
@@ -10,66 +9,69 @@ describe('Extension', () => {
     beforeEach(() => {
       global.chrome = {
         runtime: {
-          getURL: jest.fn()
-        }
-      }
+          getURL: jest.fn(),
+        },
+      };
 
-      extensionButton = document.createElement('div')
+      extensionButton = document.createElement("div");
 
       mockGmail = {
         tools: {
           add_toolbar_button: jest.fn(() => {
             return {
-              get: jest.fn(() => extensionButton) // Return a mock Node
-            }
-          })
+              get: jest.fn(() => extensionButton), // Return a mock Node
+            };
+          }),
         },
         observe: {
           on: jest.fn((event, callback) => {
-            if (event === 'load') {
+            if (event === "load") {
               callback();
             }
           }),
-        }
+        },
       };
 
       extensionObserver = {
-        observe: jest.fn()
-      }
+        observe: jest.fn(),
+      };
 
       global.MutationObserver = jest.fn(() => {
         return extensionObserver;
-      })
+      });
 
       startExtension(mockGmail);
     });
 
-    test('adds a toolbar button', () => {
+    test("adds a toolbar button", () => {
       expect(mockGmail.tools.add_toolbar_button).toHaveBeenCalled();
     });
 
-    test('observed on load', () => {
-      expect(mockGmail.observe.on).toHaveBeenCalledWith('load', expect.any(Function));
+    test("observed on load", () => {
+      expect(mockGmail.observe.on).toHaveBeenCalledWith(
+        "load",
+        expect.any(Function),
+      );
     });
 
-    test('adds a MutationObserver', () => {
+    test("adds a MutationObserver", () => {
       expect(global.MutationObserver).toHaveBeenCalled();
     });
 
-    test('calls observe on MutationObserver with the added button', () => {
-      expect(extensionObserver.observe).toHaveBeenCalledWith(
-        extensionButton,
-        { "attributeFilter": ["style"], "attributes": true }
-      );
+    test("calls observe on MutationObserver with the added button", () => {
+      expect(extensionObserver.observe).toHaveBeenCalledWith(extensionButton, {
+        attributeFilter: ["style"],
+        attributes: true,
+      });
     });
-  })
+  });
 
-  describe('#hideReadCategories', () => {
-    let nodeUnread
-    let nodeRead
+  describe("#hideReadCategories", () => {
+    let nodeUnread;
+    let nodeRead;
 
     beforeEach(() => {
-      nodeUnread = document.createElement('div');
+      nodeUnread = document.createElement("div");
       nodeUnread.innerHTML = `
 <div class="aim ain">
     <div class="TO nZ aiq"
@@ -111,9 +113,9 @@ describe('Extension', () => {
 </div>
       `;
 
-      document.body.appendChild(nodeUnread)
+      document.body.appendChild(nodeUnread);
 
-      nodeRead = document.createElement('div');
+      nodeRead = document.createElement("div");
       nodeRead.innerHTML = `
 <div class="aim ain">
     <div class="TO nZ aiq"
@@ -152,18 +154,18 @@ describe('Extension', () => {
         </div>
     </div>
 </div>
-      `
-      document.body.appendChild(nodeRead)
+      `;
+      document.body.appendChild(nodeRead);
     });
 
-    test('hides read node', () => {
-      let nodeReadBefore = nodeRead.outerHTML
-      let nodeUnreadBefore = nodeUnread.outerHTML
-      hideReadCategories()
-      expect(nodeReadBefore).not.toEqual(nodeRead.outerHTML)
-      const tnDiv = nodeRead.querySelector('.TN');
-      expect(tnDiv.style['display']).toEqual('none'); 
-      expect(nodeUnreadBefore).toEqual(nodeUnread.outerHTML)
-    })
-  })
-}); 
+    test("hides read node", () => {
+      let nodeReadBefore = nodeRead.outerHTML;
+      let nodeUnreadBefore = nodeUnread.outerHTML;
+      hideReadCategories();
+      expect(nodeReadBefore).not.toEqual(nodeRead.outerHTML);
+      const tnDiv = nodeRead.querySelector(".TN");
+      expect(tnDiv.style["display"]).toEqual("none");
+      expect(nodeUnreadBefore).toEqual(nodeUnread.outerHTML);
+    });
+  });
+});

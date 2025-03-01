@@ -1,5 +1,6 @@
-### 0.2.1 (Next)
+### 0.3.0 (Next)
 
+* Added tests - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.2.0 (2025/4/1)
