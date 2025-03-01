@@ -19,15 +19,10 @@
   ],
   "content_scripts": [
     {
-      "matches": [ "*://mail.google.com/*" ],
-      "js": [
-          "extension.js",
-          "gmailJsLoader.js"
-      ],
+      "matches": ["*://mail.google.com/*"],
+      "js": ["extension.js", "gmailJsLoader.js"],
       "run_at": "document_start"
     }
   ],
-  "host_permissions": [
-      "https://*/*"
-  ]
+  "host_permissions": ["https://*/*"]
 }
