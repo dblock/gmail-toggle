@@ -45,6 +45,8 @@ jobs:
         NEXT_VERSION=${{ steps.get_version.outputs.next_version }}
         # Update version in package.json
         sed -i "s/\"version\": \".*\"/\"version\": \"$NEXT_VERSION\"/" package.json
+        # Update version in manifest.json
+        sed -i "s/\"version\": \".*\"/\"version\": \"$NEXT_VERSION\"/" ./public/manifest.json
 
     - name: Update CHANGELOG.md
       run: |
