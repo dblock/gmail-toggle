@@ -1,8 +1,9 @@
 name: release
 
 on:
-  release:
-    types: [created]
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -25,4 +26,5 @@ jobs:
     - name: Upload Release Asset
       uses: softprops/action-gh-release@v1
       with:
-        files: release/*.zip 
+        files: release/*.zip
+        generate_release_notes: true 

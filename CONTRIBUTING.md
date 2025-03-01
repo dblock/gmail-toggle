@@ -131,9 +131,10 @@ It's likely that your change will not be merged and that the nitpicky maintainer
 
 ## Releasing
 
-1. Create a new release/tag in GitHub (e.g., `v1.0.0`).
-2. The [.github/workflows/release.yml](.github/workflows/release.yaml) workflow will automatically build the project, create a zip package, and upload the zip file to the release. 
-3. The [.github/workflows/post-release.yml](.github/workflows/post-release.yaml) workflow will open a pull request to increment the version.
+1. Change "Next" in [CHANGELOG.md](CHANGELOG.md) to today's date. 
+2. Create a new release/tag in GitHub (e.g., `v1.0.0`).
+3. The [.github/workflows/release.yml](.github/workflows/release.yaml) workflow will automatically build the project, create a zip package, and upload the zip file to the release. 
+4. The [.github/workflows/post-release.yml](.github/workflows/post-release.yaml) workflow will open a pull request to increment the version.
 
 ## Thank You
 
