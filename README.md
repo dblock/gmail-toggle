@@ -1,4 +1,4 @@
-## <img src="public/icons/icon_48.png" width="45" align="left"> Hide Read Categories in GMail
+## <img src="public/icons/icon_32.png" align="left"> Hide Read Categories in GMail
 
 [![build](https://github.com/dblock/gmail-hide-read-categories/actions/workflows/build.yaml/badge.svg)](https://github.com/dblock/gmail-hide-read-categories/actions/workflows/build.yaml)
 
