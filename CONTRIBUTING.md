@@ -16,14 +16,25 @@ cd gmail-hide-read-categories
 git remote add upstream https://github.com/dblock/gmail-hide-read-categories.git
 ```
 
-### Bundle Install and Test
+### Install Dependencies
 
 Ensure that you can build the project and run tests.
 
 ```
-bundle install
-bundle exec rake
+npm install
 ```
+
+### Build and Install in Chrome
+
+```
+npm run build
+```
+
+This creates `build/*` which can be loaded as an unpacked extension in Chrome.
+
+### Package
+
+Use `npm run repack` to package a .zip in `release`.
 
 ## Contribute Code
 
@@ -47,9 +58,7 @@ We definitely appreciate pull requests that highlight or reproduce a problem, ev
 
 Implement your feature or bug fix.
 
-Ruby style is enforced with [Rubocop](https://github.com/bbatsov/rubocop). Run `bundle exec rubocop` and fix any style issues highlighted, auto-correct issues when possible with `bundle exec rubocop -a`. To silence generally ingored issues, including line lengths or code complexity metrics, run `bundle exec rubocop --auto-gen-config`.
-
-Make sure that `bundle exec rake` completes without errors.
+Code style is enforced with prettier. Run `npm run format`.
 
 ### Write Documentation
 
