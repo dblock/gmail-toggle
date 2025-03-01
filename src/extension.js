@@ -20,7 +20,11 @@ function hideReadCategories() {
           const firstChild = $(element).children()[0];
           if (firstChild) {
             if (firstChild.getAttribute("tabindex") == "-1") {
-              outerNode.hide();
+              if (outerNode.css("display") == "none") {
+                outerNode.show();
+              } else {
+                outerNode.hide();
+              }
             }
           }
         }

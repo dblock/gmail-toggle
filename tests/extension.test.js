@@ -79,7 +79,7 @@ describe("Extension", () => {
          data-tooltip-align="r"
          id=":dp"
          jslog="36893; u014N:cOuCgd; 14:WzBd">
-        <div class="TN aY7xie aik aHS-bnr" style="margin-left:12px">
+        <div class="TN aY7xie aik aHS-bnr" style="margin-left: 12px;">
             <div class="TH J-J5-Ji"></div>
             <div class="qj aEe qr"></div>
             <div class="aio aip">
@@ -123,7 +123,7 @@ describe("Extension", () => {
          data-tooltip-align="r"
          id=":do"
          jslog="36893; u014N:cOuCgd; 14:WzBd">
-        <div class="TN aY7xie aik aHS-bnr" style="margin-left:12px">
+        <div class="TN aY7xie aik aHS-bnr" style="margin-left: 12px;">
             <div class="TH J-J5-Ji"></div>
             <div class="qj aEe qr"></div>
             <div class="aio aip">
@@ -165,6 +165,15 @@ describe("Extension", () => {
       expect(nodeReadBefore).not.toEqual(nodeRead.outerHTML);
       const tnDiv = nodeRead.querySelector(".TN");
       expect(tnDiv.style["display"]).toEqual("none");
+      expect(nodeUnreadBefore).toEqual(nodeUnread.outerHTML);
+    });
+
+    test("toggles read node", () => {
+      let nodeReadBefore = nodeRead.outerHTML;
+      let nodeUnreadBefore = nodeUnread.outerHTML;
+      hideReadCategories();
+      hideReadCategories();
+      expect(nodeReadBefore).toEqual(nodeRead.outerHTML);
       expect(nodeUnreadBefore).toEqual(nodeUnread.outerHTML);
     });
   });
