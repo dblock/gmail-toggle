@@ -1,0 +1,59 @@
+name: post-release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  version-bump:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+
+    - name: Configure Git
+      run: |
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+    - name: Get version from tag
+      id: get_version
+      run: |
+        # Get the latest release tag (e.g., v1.0.0)
+        TAG=$(git describe --tags --abbrev=0)
+        # Remove the 'v' prefix
+        VERSION=${TAG#v}
+        # Calculate next patch version
+        IFS='.' read -r major minor patch <<< "$VERSION"
+        NEXT_VERSION="$major.$minor.$((patch + 1))"
+        echo "current_version=$VERSION" >> $GITHUB_OUTPUT
+        echo "next_version=$NEXT_VERSION" >> $GITHUB_OUTPUT
+
+    - name: Update version in package.json
+      run: |
+        NEXT_VERSION=${{ steps.get_version.outputs.next_version }}
+        # Update version in package.json
+        sed -i "s/\"version\": \".*\"/\"version\": \"$NEXT_VERSION\"/" package.json
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v6
+      with:
+        branch: bump-version-${{ steps.get_version.outputs.next_version }}
+        title: 'Bump version to ${{ steps.get_version.outputs.next_version }}'
+        commit-message: 'Bump version to ${{ steps.get_version.outputs.next_version }}'
+        body: |
+          Automated version bump after release of v${{ steps.get_version.outputs.current_version }}
+          
+          - Updates version in package.json to ${{ steps.get_version.outputs.next_version }}
+        labels: automated-pr, version-bump
+        delete-branch: true 

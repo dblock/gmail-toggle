@@ -129,6 +129,12 @@ Go back to your pull request after a few minutes and see whether it passed muste
 
 It's likely that your change will not be merged and that the nitpicky maintainers will ask you to do more, or fix seemingly benign problems. Hang on there!
 
+## Releasing
+
+1. Create a new release/tag in GitHub (e.g., `v1.0.0`).
+2. The [.github/workflows/release.yml](.github/workflows/release.yaml) workflow will automatically build the project, create a zip package, and upload the zip file to the release. 
+3. The [.github/workflows/post-release.yml](.github/workflows/post-release.yaml) workflow will open a pull request to increment the version.
+
 ## Thank You
 
 Please do know that we really appreciate and value your time and work. We love you, really.
