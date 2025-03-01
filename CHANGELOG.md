@@ -1,6 +1,6 @@
-### 0.1.1 (Next)
+### 0.2.0 (2025/4/1)
 
-* Your contribution here.
+* Reduce the amount of permissions required - [@dblock](https://github.com/dblock).
 
 ### 0.1.0 (2025/4/1)
 

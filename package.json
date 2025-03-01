@@ -1,6 +1,6 @@
 {
   "name": "gmail-hide-read-categories",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A GMail extension that hides read categories.",
   "private": true,
   "license": "MIT",
