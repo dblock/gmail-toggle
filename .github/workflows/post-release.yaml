@@ -45,6 +45,12 @@ jobs:
         # Update version in package.json
         sed -i "s/\"version\": \".*\"/\"version\": \"$NEXT_VERSION\"/" package.json
 
+    - name: Update CHANGELOG.md
+      run: |
+        NEXT_VERSION=${{ steps.get_version.outputs.next_version }}
+        # Add new version section at the top of CHANGELOG.md
+        echo -e "### ${NEXT_VERSION} (Next)\n\n* Your contribution here.\n\n$(cat CHANGELOG.md)" > CHANGELOG.md
+
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v6
       with:
@@ -55,5 +61,6 @@ jobs:
           Automated version bump after release of v${{ steps.get_version.outputs.current_version }}
           
           - Updates version in package.json to ${{ steps.get_version.outputs.next_version }}
+          - Adds new section in CHANGELOG.md for version ${{ steps.get_version.outputs.next_version }}
         labels: automated-pr, version-bump
         delete-branch: true 
