@@ -26,10 +26,14 @@ function hideReadCategories() {
 
 function addButton() {
     const button = gmail.tools.add_toolbar_button(
-        document.createTextNode('📁'), () => 
-            hideReadCategories(), 
+        (() => {
+            const img = document.createElement("img");
+            img.src = chrome.runtime.getURL("icons/icon_16.png");
+            return img;
+        })(),
+        () => hideReadCategories(),
         'asa'
-    )
+    );
     
     const observer = new MutationObserver(mutationsList => {
         for (let mutation of mutationsList) {
