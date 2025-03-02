@@ -71,7 +71,7 @@ function nodesTree() {
 //   })
 // }
 
-function hideReadCategories() {
+function toggle() {
   function hideLeaf(leaf) {
     const visibleChildren = leaf
       .getChildren()
@@ -105,7 +105,7 @@ function addButton() {
       img.src = chrome.runtime.getURL("icons/icon_16.png");
       return img;
     })(),
-    () => hideReadCategories(),
+    () => toggle(),
     "asa",
   );
 
@@ -140,4 +140,4 @@ function startExtension(gmail) {
   });
 }
 
-export { startExtension, hideReadCategories };
+export { startExtension, toggle };

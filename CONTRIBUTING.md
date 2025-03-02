@@ -1,19 +1,19 @@
-# Contributing to gmail-hide-read-categories
+# Contributing to gmail-toggle
 
-This project is work of [many contributors](https://github.com/dblock/gmail-hide-read-categories/graphs/contributors).
+This project is work of [many contributors](https://github.com/dblock/gmail-toggle/graphs/contributors).
 
-You're encouraged to submit [pull requests](https://github.com/dblock/gmail-hide-read-categories/pulls), [propose features and discuss issues](https://github.com/dblock/gmail-hide-read-categories/issues).
+You're encouraged to submit [pull requests](https://github.com/dblock/gmail-toggle/pulls), [propose features and discuss issues](https://github.com/dblock/gmail-toggle/issues).
 
 In the examples below, substitute your Github username for `contributor` in URLs.
 
 ### Fork the Project
 
-Fork the [project on Github](https://github.com/dblock/gmail-hide-read-categories) and check out your copy.
+Fork the [project on Github](https://github.com/dblock/gmail-toggle) and check out your copy.
 
 ```
-git clone https://github.com/contributor/gmail-hide-read-categories.git
-cd gmail-hide-read-categories
-git remote add upstream https://github.com/dblock/gmail-hide-read-categories.git
+git clone https://github.com/contributor/gmail-toggle.git
+cd gmail-toggle
+git remote add upstream https://github.com/dblock/gmail-toggle.git
 ```
 
 ### Install Dependencies
@@ -94,14 +94,14 @@ git push origin my-feature-branch
 
 ### Make a Pull Request
 
-Go to https://github.com/contributor/gmail-hide-read-categories and select your feature branch. Click the 'Pull Request' button and fill out the form. Pull requests are usually reviewed within a few days.
+Go to https://github.com/contributor/gmail-toggle and select your feature branch. Click the 'Pull Request' button and fill out the form. Pull requests are usually reviewed within a few days.
 
 ### Update CHANGELOG Again
 
 Update the [CHANGELOG](CHANGELOG.md) with the pull request number. A typical entry looks as follows.
 
 ```
-* [#123](https://github.com/dblock/gmail-hide-read-categories/pull/123): Reticulated splines - [@contributor](https://github.com/contributor).
+* [#123](https://github.com/dblock/gmail-toggle/pull/123): Reticulated splines - [@contributor](https://github.com/contributor).
 ```
 
 Amend your previous commit and force push the changes.

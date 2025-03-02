@@ -1,7 +1,7 @@
 {
-  "name": "gmail-hide-read-categories",
-  "version": "0.3.1",
-  "description": "A GMail extension that hides read categories.",
+  "name": "gmail-toggle",
+  "version": "0.4.0",
+  "description": "A Chrome extension that toggles (shows or hides) categories and labels that have unread messages in GMail.",
   "private": true,
   "license": "MIT",
   "scripts": {

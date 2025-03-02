@@ -1,5 +1,6 @@
-### 0.3.1 (Next)
+### 0.4.0 (Next)
 
+* Renamed to gmail-toggle - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.3.0 (2025/4/2)

@@ -1,8 +1,8 @@
-## <img src="public/icons/icon_32.png" align="left"> Hide Read Categories in GMail
+## <img src="public/icons/icon_32.png" align="left"> Toggle Categories and Labels in GMail
 
-[![build](https://github.com/dblock/gmail-hide-read-categories/actions/workflows/build.yaml/badge.svg)](https://github.com/dblock/gmail-hide-read-categories/actions/workflows/build.yaml)
+[![build](https://github.com/dblock/gmail-toggle/actions/workflows/build.yaml/badge.svg)](https://github.com/dblock/gmail-toggle/actions/workflows/build.yaml)
 
-A GMail Chrome extension that hides categories without unread messages.
+A Chrome extension that toggles (shows or hides) categories and labels that have unread messages in GMail.
 
 ![](demo.gif)
 

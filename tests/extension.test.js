@@ -1,4 +1,4 @@
-import { startExtension, hideReadCategories } from "extension";
+import { startExtension, toggle } from "extension";
 import fs from "fs";
 import path from "path";
 import $ from "jquery";
@@ -69,7 +69,7 @@ describe("Extension", () => {
     });
   });
 
-  describe("#hideReadCategories", () => {
+  describe("#toggle", () => {
     let html;
 
     beforeEach(() => {
@@ -90,7 +90,7 @@ describe("Extension", () => {
 
     describe("clicked once", () => {
       beforeEach(() => {
-        hideReadCategories();
+        toggle();
       });
 
       test("hides read categories", () => {
@@ -123,7 +123,7 @@ describe("Extension", () => {
 
       describe("toggled", () => {
         beforeEach(() => {
-          hideReadCategories();
+          toggle();
         });
 
         test("toggles read node back", () => {
