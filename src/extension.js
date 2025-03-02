@@ -109,6 +109,8 @@ function addButton() {
     "asa",
   );
 
+  button.attr("data-tooltip", "Toggle Read/Unread");
+
   const observer = new MutationObserver((mutationsList) => {
     for (let mutation of mutationsList) {
       if (

@@ -7,6 +7,7 @@ describe("Extension", () => {
   describe("#startExtension", () => {
     let mockGmail;
     let extensionButton;
+    let extensionButtonContainer;
     let extensionObserver;
 
     beforeEach(() => {
@@ -16,14 +17,16 @@ describe("Extension", () => {
         },
       };
 
+      extensionButtonContainer = {
+        get: jest.fn(() => extensionButton),
+        attr: jest.fn(() => {}),
+      };
       extensionButton = document.createElement("div");
 
       mockGmail = {
         tools: {
           add_toolbar_button: jest.fn(() => {
-            return {
-              get: jest.fn(() => extensionButton), // Return a mock Node
-            };
+            return extensionButtonContainer;
           }),
         },
         observe: {
@@ -48,6 +51,13 @@ describe("Extension", () => {
 
     test("adds a toolbar button", () => {
       expect(mockGmail.tools.add_toolbar_button).toHaveBeenCalled();
+    });
+
+    test("adds a tooltip", () => {
+      expect(extensionButtonContainer.attr).toHaveBeenCalledWith(
+        "data-tooltip",
+        "Toggle Read/Unread",
+      );
     });
 
     test("observed on load", () => {

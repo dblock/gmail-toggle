@@ -1,5 +1,6 @@
 ### 0.4.0 (Next)
 
+* Added tooltip on button hover - [@dblock](https://github.com/dblock).
 * Renamed to gmail-toggle - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
