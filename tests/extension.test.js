@@ -1,4 +1,7 @@
 import { startExtension, hideReadCategories } from "extension";
+import fs from "fs";
+import path from "path";
+import $ from "jquery";
 
 describe("Extension", () => {
   describe("#startExtension", () => {
@@ -67,114 +70,69 @@ describe("Extension", () => {
   });
 
   describe("#hideReadCategories", () => {
-    let nodeUnread;
-    let nodeRead;
+    let html;
 
     beforeEach(() => {
-      nodeUnread = document.createElement("div");
-      nodeUnread.innerHTML = `
-<div class="aim ain">
-    <div class="TO nZ aiq"
-         data-tooltip="gmail-hide-read-categories"
-         data-tooltip-align="r"
-         id=":dp"
-         jslog="36893; u014N:cOuCgd; 14:WzBd">
-        <div class="TN aY7xie aik aHS-bnr" style="margin-left: 12px;">
-            <div class="TH J-J5-Ji"></div>
-            <div class="qj aEe qr"></div>
-            <div class="aio aip">
-                <span class="nU n1">
-                    <a aria-label="gmail-hide-read-categories 3 unread has menu"
-                       class="J-Ke n0"
-                       draggable="false"
-                       href="https://mail.google.com/mail/u/0/?ui=2#label/_+Open+Source/gmail-hide-read-categories"
-                       tabindex="-1"
-                       target="_top">
-                        gmail-hide-read-categories
-                    </a>
-                </span>
-                <div class="bsU">3</div>
-            </div>
-            <div class="nL aig">
-                <div aria-haspopup="true"
-                     aria-hidden="true"
-                     class="pM aj0"
-                     data-label-name="_ Open Source/gmail-hide-read-categories"
-                     jsaction="ZElhof"
-                     style="color: ; background-color:; border-color: "
-                     tabindex="-1">
-                    <div class="p6" style="background-color: ">
-                        <div class="p8">▼</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-      `;
-
-      document.body.appendChild(nodeUnread);
-
-      nodeRead = document.createElement("div");
-      nodeRead.innerHTML = `
-<div class="aim ain">
-    <div class="TO nZ aiq"
-         data-tooltip="gli"
-         data-tooltip-align="r"
-         id=":do"
-         jslog="36893; u014N:cOuCgd; 14:WzBd">
-        <div class="TN aY7xie aik aHS-bnr" style="margin-left: 12px;">
-            <div class="TH J-J5-Ji"></div>
-            <div class="qj aEe qr"></div>
-            <div class="aio aip">
-                <span class="nU">
-                    <a aria-label="gli has menu"
-                       class="J-Ke n0"
-                       draggable="false"
-                       href="https://mail.google.com/mail/u/0/?ui=2#label/_+Open+Source/gli"
-                       tabindex="-1"
-                       target="_top">
-                        gli
-                    </a>
-                </span>
-            </div>
-            <div class="nL aig">
-                <div aria-haspopup="true"
-                     aria-hidden="true"
-                     class="pM aj0"
-                     data-label-name="_ Open Source/gli"
-                     jsaction="ZElhof"
-                     style="color: ; background-color:; border-color: "
-                     tabindex="-1">
-                    <div class="p6" style="background-color: ">
-                        <div class="p8">▼</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-      `;
-      document.body.appendChild(nodeRead);
+      html = document.createElement("html");
+      html.innerHTML = fs.readFileSync(
+        path.resolve(__dirname, "./fixtures/categories.html"),
+        "utf8",
+      );
+      document.body.appendChild(html);
     });
 
-    test("hides read node", () => {
-      let nodeReadBefore = nodeRead.outerHTML;
-      let nodeUnreadBefore = nodeUnread.outerHTML;
-      hideReadCategories();
-      expect(nodeReadBefore).not.toEqual(nodeRead.outerHTML);
-      const tnDiv = nodeRead.querySelector(".TN");
-      expect(tnDiv.style["display"]).toEqual("none");
-      expect(nodeUnreadBefore).toEqual(nodeUnread.outerHTML);
+    test("has unread categories", () => {
+      expect($(html).find(".TN").length).toEqual(59);
+      expect($($(html).find('.TN[style*="display: none"]')).length).toEqual(0);
+      expect($(html).find(".nU").length).toEqual(59);
+      expect($(html).find(".n1").length).toEqual(9);
     });
 
-    test("toggles read node", () => {
-      let nodeReadBefore = nodeRead.outerHTML;
-      let nodeUnreadBefore = nodeUnread.outerHTML;
-      hideReadCategories();
-      hideReadCategories();
-      expect(nodeReadBefore).toEqual(nodeRead.outerHTML);
-      expect(nodeUnreadBefore).toEqual(nodeUnread.outerHTML);
+    describe("clicked once", () => {
+      beforeEach(() => {
+        hideReadCategories();
+      });
+
+      test("hides read categories", () => {
+        expect($($(html).find('.TN[style*="display: none"]')).length).toEqual(
+          42,
+        );
+      });
+
+      test("keeps an unread parent nodes", () => {
+        let openSourceNode = $(
+          $(html).find(
+            '.nU a[aria-label*="_ Open Source expanded has menu"]',
+          )[0],
+        )
+          .parent()
+          .parent()
+          .parent();
+        expect(openSourceNode.css("display")).toEqual("block");
+      });
+
+      test("hides an unread leaf node", () => {
+        let awsCdkNode = $(
+          $(html).find('.nU a[aria-label*="aws-cdk has menu"]')[0],
+        )
+          .parent()
+          .parent()
+          .parent();
+        expect(awsCdkNode.css("display")).toEqual("none");
+      });
+
+      describe("toggled", () => {
+        beforeEach(() => {
+          hideReadCategories();
+        });
+
+        test("toggles read node back", () => {
+          expect($(html).find(".TN").length).toEqual(59);
+          expect($($(html).find('.TN[style*="display: none"]')).length).toEqual(
+            0,
+          );
+        });
+      });
     });
   });
 });

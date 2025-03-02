@@ -1,5 +1,6 @@
 ### 0.3.0 (Next)
 
+* Preserves parent read nodes - [@dblock](https://github.com/dblock).
 * Toggles read/unread - [@dblock](https://github.com/dblock).
 * Added tests - [@dblock](https://github.com/dblock).
 * Your contribution here.
