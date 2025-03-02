@@ -12,6 +12,8 @@ const loaderId = setInterval(() => {
   startExtension(window._gmailjs);
 }, 100);
 
+let state = { showUnread: null };
+
 function nodesList() {
   return $.map($(".nU"), (element) => {
     if (element.parentNode) {
@@ -72,11 +74,11 @@ function nodesTree() {
 // }
 
 function toggle() {
-  function hideLeaf(leaf) {
+  function toggleLeaf(leaf) {
     const visibleChildren = leaf
       .getChildren()
       .map((child) => {
-        return hideLeaf(child);
+        return toggleLeaf(child);
       })
       .reduce((sum, value) => sum + value, 0);
 
@@ -86,7 +88,7 @@ function toggle() {
       const node = leaf.getData().node;
       const unread = node.parent().find(".n1").length;
       // console.log(`${node.text()}: ${unread}`)
-      if (node.css("display") == "none") {
+      if (state.showUnread == true) {
         node.show();
       } else if (unread == 0) {
         node.hide();
@@ -95,7 +97,8 @@ function toggle() {
     }
   }
 
-  hideLeaf(nodesTree());
+  state.showUnread = !state.showUnread;
+  toggleLeaf(nodesTree());
 }
 
 function addButton() {
@@ -136,6 +139,8 @@ function addButton() {
 
 function startExtension(gmail) {
   window.gmail = gmail;
+
+  state = { showUnread: true };
 
   gmail.observe.on("load", () => {
     addButton();

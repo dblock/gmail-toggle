@@ -21,6 +21,7 @@ describe("Extension", () => {
         get: jest.fn(() => extensionButton),
         attr: jest.fn(() => {}),
       };
+
       extensionButton = document.createElement("div");
 
       mockGmail = {
@@ -77,70 +78,106 @@ describe("Extension", () => {
         attributes: true,
       });
     });
-  });
 
-  describe("#toggle", () => {
-    let html;
+    describe("#toggle", () => {
+      let html;
 
-    beforeEach(() => {
-      html = document.createElement("html");
-      html.innerHTML = fs.readFileSync(
-        path.resolve(__dirname, "./fixtures/categories.html"),
-        "utf8",
-      );
-      document.body.appendChild(html);
-    });
-
-    test("has unread categories", () => {
-      expect($(html).find(".TN").length).toEqual(59);
-      expect($($(html).find('.TN[style*="display: none"]')).length).toEqual(0);
-      expect($(html).find(".nU").length).toEqual(59);
-      expect($(html).find(".n1").length).toEqual(9);
-    });
-
-    describe("clicked once", () => {
       beforeEach(() => {
-        toggle();
-      });
-
-      test("hides read categories", () => {
-        expect($($(html).find('.TN[style*="display: none"]')).length).toEqual(
-          42,
+        html = document.createElement("html");
+        html.innerHTML = fs.readFileSync(
+          path.resolve(__dirname, "./fixtures/categories.html"),
+          "utf8",
         );
+        document.body.appendChild(html);
       });
 
-      test("keeps an unread parent nodes", () => {
-        let openSourceNode = $(
-          $(html).find(
-            '.nU a[aria-label*="_ Open Source expanded has menu"]',
-          )[0],
-        )
-          .parent()
-          .parent()
-          .parent();
-        expect(openSourceNode.css("display")).toEqual("block");
+      test("has unread categories", () => {
+        expect($(html).find(".TN").length).toEqual(59);
+        expect($($(html).find('.TN[style*="display: none"]')).length).toEqual(
+          0,
+        );
+        expect($(html).find(".nU").length).toEqual(59);
+        expect($(html).find(".n1").length).toEqual(9);
       });
 
-      test("hides an unread leaf node", () => {
-        let awsCdkNode = $(
-          $(html).find('.nU a[aria-label*="aws-cdk has menu"]')[0],
-        )
-          .parent()
-          .parent()
-          .parent();
-        expect(awsCdkNode.css("display")).toEqual("none");
-      });
-
-      describe("toggled", () => {
+      describe("clicked once", () => {
         beforeEach(() => {
           toggle();
         });
 
-        test("toggles read node back", () => {
-          expect($(html).find(".TN").length).toEqual(59);
+        test("hides read categories", () => {
           expect($($(html).find('.TN[style*="display: none"]')).length).toEqual(
-            0,
+            42,
           );
+        });
+
+        test("keeps an unread node", () => {
+          let unreadNode = $(
+            $(html).find(
+              '.nU a[aria-label*="OpenSearch 77 unread has menu"]',
+            )[0],
+          )
+            .parent()
+            .parent()
+            .parent();
+          expect(unreadNode.css("display")).toEqual("block");
+        });
+
+        test("shows an unread category", () => {
+          let unreadCategoryNode = $(
+            $(html).find(
+              '.nU a[aria-label*="_ Open Source expanded has menu"]',
+            )[0],
+          )
+            .parent()
+            .parent()
+            .parent();
+          expect(unreadCategoryNode.css("display")).toEqual("block");
+        });
+
+        test("hides an unread leaf node", () => {
+          let unreadLeafNode = $(
+            $(html).find('.nU a[aria-label*="aws-cdk has menu"]')[0],
+          )
+            .parent()
+            .parent()
+            .parent();
+          expect(unreadLeafNode.css("display")).toEqual("none");
+        });
+
+        describe("toggled", () => {
+          beforeEach(() => {
+            toggle();
+          });
+
+          test("toggles read node back", () => {
+            expect($(html).find(".TN").length).toEqual(59);
+            expect(
+              $($(html).find('.TN[style*="display: none"]')).length,
+            ).toEqual(0);
+          });
+        });
+
+        describe("with a randomly expanded node", () => {
+          beforeEach(() => {
+            let unreadNode = $(
+              $(html).find(
+                '.nU a[aria-label*="OpenSearch 77 unread has menu"]',
+              )[0],
+            )
+              .parent()
+              .parent()
+              .parent();
+            unreadNode.hide();
+            toggle();
+          });
+
+          test("toggles read node back", () => {
+            expect($(html).find(".TN").length).toEqual(59);
+            expect(
+              $($(html).find('.TN[style*="display: none"]')).length,
+            ).toEqual(0);
+          });
         });
       });
     });
