@@ -2,6 +2,7 @@
 
 * Added tooltip on button hover - [@dblock](https://github.com/dblock).
 * Renamed to gmail-toggle - [@dblock](https://github.com/dblock).
+* Removed `activeTab` and `scripting` permissions - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.3.0 (2025/4/2)

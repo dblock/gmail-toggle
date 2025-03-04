@@ -25,5 +25,5 @@
     }
   ],
   "host_permissions": ["https://mail.google.com/*", "https://*.google.com/*"],
-  "permissions": ["activeTab", "scripting"]
+  "permissions": []
 }
