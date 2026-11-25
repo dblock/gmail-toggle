@@ -17,7 +17,7 @@ Open [GMail](https://mail.google.com) and click the extension's button in the to
 
 ## Contributing
 
-You're encouraged to contribute to this project. See [CONTRIBUTING](CONTRIBUTING.md) for details, and [CHANGELOG](CHANGELOG.md) for what changed in each release.
+You're encouraged to contribute to this project. See [CONTRIBUTING](CONTRIBUTING.md) for details, [CHANGELOG](CHANGELOG.md) for what changed in each release, and [RELEASING](RELEASING.md) for how releases are made.
 
 This project was bootstrapped with [Chrome Extension CLI](https://github.com/dutiyesh/chrome-extension-cli) and uses [gmail.js](https://github.com/KartikTalwar/gmail.js) and its [boilerplate](https://github.com/josteink/gmailjs-node-boilerplate). [Unread icons created by Milkghost Studio - Flaticon](https://www.flaticon.com/free-icons/unread).
 

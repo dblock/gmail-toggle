@@ -2,6 +2,7 @@ dblock
 Doubrovkine
 Flaticon
 gmailjs
+Intridea
 Milkghost
 nitpicky
 Prefilter

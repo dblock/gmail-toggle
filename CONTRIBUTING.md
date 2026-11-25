@@ -34,10 +34,6 @@ npm run build
 
 This creates `build/*` which can be loaded as an unpacked extension in Chrome.
 
-### Package
-
-Use `npm run repack` to package a .zip in `release`.
-
 ## Contribute Code
 
 ### Create a Topic Branch
@@ -133,10 +129,7 @@ It's likely that your change will not be merged and that the nitpicky maintainer
 
 ## Releasing
 
-1. Change "Next" in [CHANGELOG.md](CHANGELOG.md) to today's date and remove the *Your contribution here* line.
-2. Create a new release and tag in GitHub, for example `v1.0.0`.
-3. The [release](.github/workflows/release.yaml) workflow builds the project, creates a zip package, and uploads it to the release.
-4. The [post-release](.github/workflows/post-release.yaml) workflow opens a pull request to increment the version.
+See [RELEASING](RELEASING.md).
 
 ## Thank You
 

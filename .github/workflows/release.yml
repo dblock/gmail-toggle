@@ -1,0 +1,21 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Optional numeric release version.
+        type: string
+        required: false
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    name: Release Extension
+    uses: dblock/npm-package-release/.github/workflows/release.yml@v0.3.0
+    with:
+      config: npr.config.mjs
+      version: ${{ inputs.version }}
