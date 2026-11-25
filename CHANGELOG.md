@@ -1,5 +1,6 @@
 ### 0.4.1 (Next)
 
+* [#13](https://github.com/dblock/gmail-toggle/pull/13): Remove Renovate configuration - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.4.0 (2025/03/04)
