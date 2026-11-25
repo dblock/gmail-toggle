@@ -1,6 +1,6 @@
 {
   "name": "gmail-toggle",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "A Chrome extension that toggles (shows or hides) categories and labels that have unread messages in GMail.",
   "private": true,
   "license": "MIT",

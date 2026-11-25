@@ -1,11 +1,12 @@
 # Changelog
 
-## 0.4.1 (Next)
+## 0.5.0 (Next)
 
 * [#13](https://github.com/dblock/gmail-toggle/pull/13): Remove Renovate configuration - [@dblock](https://github.com/dblock).
 * [#14](https://github.com/dblock/gmail-toggle/pull/14): Test on current Node.js with current GitHub Actions and fix the corrupt `package-lock.json` - [@dblock](https://github.com/dblock).
 * [#15](https://github.com/dblock/gmail-toggle/pull/15): Lint code, Markdown, and spelling, and clean up documentation - [@dblock](https://github.com/dblock).
 * [#16](https://github.com/dblock/gmail-toggle/pull/16): Speed up CI - [@dblock](https://github.com/dblock).
+* [#19](https://github.com/dblock/gmail-toggle/pull/19): Remember whether read categories and labels are hidden when GMail reloads, and hide read labels that GMail renders later - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ## 0.4.0 (2025/03/04)
