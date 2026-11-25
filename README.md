@@ -13,7 +13,7 @@ Download `gmail-toggle-v<version>.zip` from the [latest release](https://github.
 
 ## Usage
 
-Open [GMail](https://mail.google.com) and click the extension's button in the toolbar above the message list to hide categories and labels without unread messages. Click it again to show them.
+Open [GMail](https://mail.google.com) and click the extension's button in the toolbar above the message list to hide categories and labels without unread messages. Click it again to show them. The extension remembers your choice when GMail reloads.
 
 ## Contributing
 

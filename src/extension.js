@@ -12,7 +12,25 @@ const loaderId = setInterval(() => {
   startExtension(window._gmailjs);
 }, 100);
 
+const HIDE_READ_KEY = "gmail-toggle.hideRead";
+
 let state = { showUnread: null };
+
+function loadHideRead() {
+  try {
+    return window.localStorage.getItem(HIDE_READ_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
+
+function saveHideRead(hideRead) {
+  try {
+    window.localStorage.setItem(HIDE_READ_KEY, String(hideRead));
+  } catch {
+    // Storage may be unavailable, for example when blocked by browser settings.
+  }
+}
 
 function nodesList() {
   return $.map($(".nU"), (element) => {
@@ -73,7 +91,7 @@ function nodesTree() {
 //   })
 // }
 
-function toggle() {
+function applyState() {
   function toggleLeaf(leaf) {
     const visibleChildren = leaf
       .getChildren()
@@ -82,7 +100,12 @@ function toggle() {
       })
       .reduce((sum, value) => sum + value, 0);
 
-    if (leaf.isRoot() || visibleChildren > 0) {
+    if (leaf.isRoot()) {
+      return visibleChildren;
+    } else if (visibleChildren > 0) {
+      // A label with unread labels below it stays visible, also when it was
+      // hidden before GMail rendered those labels.
+      leaf.getData().node.show();
       return visibleChildren;
     } else {
       const node = leaf.getData().node;
@@ -97,8 +120,41 @@ function toggle() {
     }
   }
 
-  state.showUnread = !state.showUnread;
   toggleLeaf(nodesTree());
+}
+
+function toggle() {
+  state.showUnread = !state.showUnread;
+  applyState();
+  saveHideRead(!state.showUnread);
+}
+
+let labelsObserver = null;
+
+function addsLabels(mutations) {
+  return mutations.some((mutation) =>
+    Array.from(mutation.addedNodes).some(
+      (node) =>
+        node.nodeType === Node.ELEMENT_NODE &&
+        (node.matches(".nU") || node.querySelector(".nU")),
+    ),
+  );
+}
+
+// GMail renders labels before and after it loads, for example the children
+// of labels it expands again, and when a label is expanded. Hide the read ones
+// as they appear. Observer callbacks run before the browser paints, so hidden
+// labels do not flicker.
+function observeLabels() {
+  labelsObserver = new MutationObserver((mutations) => {
+    if (!state.showUnread && addsLabels(mutations)) {
+      applyState();
+    }
+  });
+  labelsObserver.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
 }
 
 function addButton() {
@@ -140,7 +196,17 @@ function addButton() {
 function startExtension(gmail) {
   window.gmail = gmail;
 
-  state = { showUnread: true };
+  state = { showUnread: !loadHideRead() };
+
+  if (labelsObserver) {
+    labelsObserver.disconnect?.();
+    labelsObserver = null;
+  }
+
+  if (!state.showUnread) {
+    applyState();
+  }
+  observeLabels();
 
   gmail.observe.on("load", () => {
     addButton();
