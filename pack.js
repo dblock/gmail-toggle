@@ -21,5 +21,5 @@ try {
     `Success! Created a ${filename} file under ${outdir} directory. You can upload this file to web store.`,
   );
 } catch (e) {
-  console.error("Error! Failed to generate a zip file.");
+  console.error("Error! Failed to generate a zip file.", e);
 }

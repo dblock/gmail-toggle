@@ -1,0 +1,11 @@
+{
+  "config": {
+    "default": true,
+    // Paragraphs are kept on one source line.
+    "MD013": false,
+    // The README title shows the extension icon.
+    "MD033": { "allowed_elements": ["img"] }
+  },
+  "globs": ["**/*.md"],
+  "ignores": ["node_modules/**", "build/**", "release/**", "LICENSE.md"]
+}

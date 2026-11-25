@@ -4,13 +4,13 @@ This project is work of [many contributors](https://github.com/dblock/gmail-togg
 
 You're encouraged to submit [pull requests](https://github.com/dblock/gmail-toggle/pulls), [propose features and discuss issues](https://github.com/dblock/gmail-toggle/issues).
 
-In the examples below, substitute your Github username for `contributor` in URLs.
+In the examples below, substitute your GitHub username for `contributor` in URLs.
 
-### Fork the Project
+## Fork the Project
 
-Fork the [project on Github](https://github.com/dblock/gmail-toggle) and check out your copy.
+Fork the [project on GitHub](https://github.com/dblock/gmail-toggle) and check out your copy.
 
-```
+```bash
 git clone https://github.com/contributor/gmail-toggle.git
 cd gmail-toggle
 git remote add upstream https://github.com/dblock/gmail-toggle.git
@@ -20,7 +20,7 @@ git remote add upstream https://github.com/dblock/gmail-toggle.git
 
 Ensure that you can build the project and run tests with Node.js 22 or newer.
 
-```
+```bash
 npm install
 npm run lint
 npm test
@@ -28,7 +28,7 @@ npm test
 
 ### Build and Install in Chrome
 
-```
+```bash
 npm run build
 ```
 
@@ -44,7 +44,7 @@ Use `npm run repack` to package a .zip in `release`.
 
 Make sure your fork is up-to-date and create a topic branch for your feature or bug fix.
 
-```
+```bash
 git checkout master
 git pull upstream master
 git checkout -b my-feature-branch
@@ -60,7 +60,7 @@ We definitely appreciate pull requests that highlight or reproduce a problem, ev
 
 Implement your feature or bug fix.
 
-Code style is enforced with prettier. Run `npm run format`.
+Code style is enforced with [Prettier](https://prettier.io) through ESLint. Run `npm run format` to format code and `npm run lint` to check code, Markdown, and spelling. Add project-specific words to [.spellcheck.txt](.spellcheck.txt).
 
 ### Write Documentation
 
@@ -68,47 +68,47 @@ Document any external behavior in the [README](README.md).
 
 ### Update Changelog
 
-Add a line to [CHANGELOG](CHANGELOG.md) under *Next Release*. Don't remove *Your contribution here*.
+Add a line to [CHANGELOG](CHANGELOG.md) under *Next*. Don't remove *Your contribution here*.
 
-Make it look like every other line, including a link to the issue being fixed, your name and link to your Github account.
+Make it look like every other line, including a link to the issue being fixed, your name and link to your GitHub account.
 
 ### Commit Changes
 
 Make sure git knows your name and email address:
 
-```
+```bash
 git config --global user.name "Your Name"
 git config --global user.email "contributor@example.com"
 ```
 
 Writing good commit logs is important. A commit log should describe what changed and why.
 
-```
+```bash
 git add ...
 git commit
 ```
 
 ### Push
 
-```
+```bash
 git push origin my-feature-branch
 ```
 
 ### Make a Pull Request
 
-Go to https://github.com/contributor/gmail-toggle and select your feature branch. Click the 'Pull Request' button and fill out the form. Pull requests are usually reviewed within a few days.
+Go to `https://github.com/contributor/gmail-toggle` and select your feature branch. Click the 'Pull Request' button and fill out the form. Pull requests are usually reviewed within a few days.
 
 ### Update CHANGELOG Again
 
 Update the [CHANGELOG](CHANGELOG.md) with the pull request number. A typical entry looks as follows.
 
-```
+```markdown
 * [#123](https://github.com/dblock/gmail-toggle/pull/123): Reticulated splines - [@contributor](https://github.com/contributor).
 ```
 
 Amend your previous commit and force push the changes.
 
-```
+```bash
 git commit --amend
 git push origin my-feature-branch -f
 ```
@@ -117,7 +117,7 @@ git push origin my-feature-branch -f
 
 If you've been working on a change for a while, rebase with upstream/master.
 
-```
+```bash
 git fetch upstream
 git rebase upstream/master
 git push origin my-feature-branch -f
@@ -133,10 +133,10 @@ It's likely that your change will not be merged and that the nitpicky maintainer
 
 ## Releasing
 
-1. Change "Next" in [CHANGELOG.md](CHANGELOG.md) to today's date. 
-2. Create a new release/tag in GitHub (e.g., `v1.0.0`).
-3. The [.github/workflows/release.yml](.github/workflows/release.yaml) workflow will automatically build the project, create a zip package, and upload the zip file to the release. 
-4. The [.github/workflows/post-release.yml](.github/workflows/post-release.yaml) workflow will open a pull request to increment the version.
+1. Change "Next" in [CHANGELOG.md](CHANGELOG.md) to today's date and remove the *Your contribution here* line.
+2. Create a new release and tag in GitHub, for example `v1.0.0`.
+3. The [release](.github/workflows/release.yaml) workflow builds the project, creates a zip package, and uploads it to the release.
+4. The [post-release](.github/workflows/post-release.yaml) workflow opens a pull request to increment the version.
 
 ## Thank You
 
