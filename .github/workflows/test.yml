@@ -1,0 +1,34 @@
+name: Test
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test (Node ${{ matrix.entry.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        entry:
+          - { node: '22' }
+          - { node: '24' }
+          - { node: '26' }
+    steps:
+      - name: Check Out
+        uses: actions/checkout@v7
+      - name: Set Up Node.js ${{ matrix.entry.node }}
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.entry.node }}
+          cache: npm
+      - name: Install Dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Run Tests
+        run: npm test
+      - name: Build
+        run: npm run build

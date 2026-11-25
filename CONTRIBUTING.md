@@ -18,10 +18,12 @@ git remote add upstream https://github.com/dblock/gmail-toggle.git
 
 ### Install Dependencies
 
-Ensure that you can build the project and run tests.
+Ensure that you can build the project and run tests with Node.js 22 or newer.
 
 ```
 npm install
+npm run lint
+npm test
 ```
 
 ### Build and Install in Chrome
@@ -50,7 +52,7 @@ git checkout -b my-feature-branch
 
 ### Write Tests
 
-Try to write a test that reproduces the problem you're trying to fix or describes a feature that you want to build. Add tests to [spec](spec).
+Try to write a test that reproduces the problem you're trying to fix or describes a feature that you want to build. Add tests to [tests](tests).
 
 We definitely appreciate pull requests that highlight or reproduce a problem, even without a fix.
 
@@ -123,7 +125,7 @@ git push origin my-feature-branch -f
 
 ### Check on Your Pull Request
 
-Go back to your pull request after a few minutes and see whether it passed muster with Travis-CI. Everything should look green, otherwise fix issues and amend your commit as described above.
+Go back to your pull request after a few minutes and see whether it passed muster with [GitHub Actions](https://github.com/dblock/gmail-toggle/actions). Everything should look green, otherwise fix issues and amend your commit as described above.
 
 ### Be Patient
 

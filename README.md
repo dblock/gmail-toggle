@@ -1,6 +1,6 @@
 ## <img src="public/icons/icon_32.png" align="left"> Toggle Categories and Labels in GMail
 
-[![build](https://github.com/dblock/gmail-toggle/actions/workflows/build.yaml/badge.svg)](https://github.com/dblock/gmail-toggle/actions/workflows/build.yaml)
+[![Test](https://github.com/dblock/gmail-toggle/actions/workflows/test.yml/badge.svg)](https://github.com/dblock/gmail-toggle/actions/workflows/test.yml)
 
 A Chrome extension that toggles (shows or hides) categories and labels that have unread messages in GMail.
 
