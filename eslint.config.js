@@ -4,7 +4,7 @@ const prettierRecommended = require("eslint-plugin-prettier/recommended");
 
 module.exports = [
   {
-    ignores: ["build/", "release/", "node_modules/"],
+    ignores: ["build/", "node_modules/"],
   },
   js.configs.recommended,
   prettierRecommended,
@@ -27,7 +27,7 @@ module.exports = [
     },
   },
   {
-    files: ["eslint.config.js", "babel.config.js", "pack.js", "config/**/*.js"],
+    files: ["eslint.config.js", "babel.config.js", "config/**/*.js"],
     languageOptions: {
       sourceType: "commonjs",
     },

@@ -8,7 +8,6 @@
   "ignorePaths": [
     "node_modules/**",
     "build/**",
-    "release/**",
     "package-lock.json",
     "tests/fixtures/**",
     "public/icons/**",

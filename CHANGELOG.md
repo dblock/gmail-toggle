@@ -7,6 +7,7 @@
 * [#15](https://github.com/dblock/gmail-toggle/pull/15): Lint code, Markdown, and spelling, and clean up documentation - [@dblock](https://github.com/dblock).
 * [#16](https://github.com/dblock/gmail-toggle/pull/16): Speed up CI - [@dblock](https://github.com/dblock).
 * [#19](https://github.com/dblock/gmail-toggle/pull/19): Remember whether read categories and labels are hidden when GMail reloads, and hide read labels that GMail renders later - [@dblock](https://github.com/dblock).
+* [#20](https://github.com/dblock/gmail-toggle/pull/20): Release with [npm-package-release](https://github.com/dblock/npm-package-release) from a manually dispatched workflow - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ## 0.4.0 (2025/03/04)
