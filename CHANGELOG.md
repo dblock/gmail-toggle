@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1 (Next)
+
+* Your contribution here.
+
 ## 0.5.0 (2026/11/26)
 
 * [#13](https://github.com/dblock/gmail-toggle/pull/13): Remove Renovate configuration - [@dblock](https://github.com/dblock).
