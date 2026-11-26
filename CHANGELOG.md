@@ -1,9 +1,8 @@
 # Changelog
 
-## 0.6.1 (Next)
+## 0.6.1 (2026/11/26)
 
 * [#28](https://github.com/dblock/gmail-toggle/pull/28): Rename the extension to Toggle Read and Unread Labels and Mail in GMail, and describe what it hides - [@dblock](https://github.com/dblock).
-* Your contribution here.
 
 ## 0.6.0 (2026/11/26)
 
