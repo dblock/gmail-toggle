@@ -4,7 +4,7 @@
 
 ## Sources
 
-[script.json](script.json) holds the narration for each step, the voice, and a pronunciation list. [scenes](scenes) has one 1920x1080 HTML scene per chapter, styled by [theme.css](theme.css). The screens come from [demo.gif](../../demo.gif): the busy sidebar is [screenshot-before.png](../chrome-web-store/screenshot-before.png) at full size, and [shots](shots) has pixel-for-pixel crops of the label list and the toolbar, written by `npm run store-images` with the Chrome Web Store images.
+[script.json](script.json) holds the narration for each step, the voice, and a pronunciation list. [scenes](scenes) has one 1920x1080 HTML scene per chapter, styled by [theme.css](theme.css). The screens come from the stills of the demo recording in [chrome-web-store](../chrome-web-store/README.md#sources): the busy sidebar is [screenshot-before.png](../chrome-web-store/screenshot-before.png) at full size, and [shots](shots) has pixel-for-pixel crops of the label list and the toolbar, written by `npm run store-images` with the Chrome Web Store images.
 
 ## Credits
 

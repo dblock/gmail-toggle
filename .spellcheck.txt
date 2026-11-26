@@ -3,6 +3,7 @@ alimiter
 amix
 asplit
 bordercolor
+cliclick
 dblock
 detuned
 Doubrovkine
@@ -11,8 +12,11 @@ emph
 faststart
 ffprobe
 Flaticon
+gifsicle
 gmailjs
 Intridea
+lanczos
+lavfi
 linecap
 linejoin
 magick
@@ -21,7 +25,13 @@ Milkghost
 mktemp
 movflags
 nitpicky
+osascript
+palettegen
+paletteuse
 pointsize
 Prefilter
 rsvg
+screencapture
+setpts
 sidechaincompress
+STARTPTS

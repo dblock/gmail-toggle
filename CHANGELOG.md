@@ -7,6 +7,7 @@
 * [#23](https://github.com/dblock/gmail-toggle/pull/23): Fix [#7](https://github.com/dblock/gmail-toggle/issues/7): keep the toolbar button when GMail shows a label, category, or search - [@dblock](https://github.com/dblock).
 * [#24](https://github.com/dblock/gmail-toggle/pull/24): Show a closed envelope on the toolbar button while read categories and labels are hidden, and an open one while everything is shown - [@dblock](https://github.com/dblock).
 * [#25](https://github.com/dblock/gmail-toggle/pull/25): Fix [#9](https://github.com/dblock/gmail-toggle/issues/9): show the button next to "+" in the Labels header too, and choose the message toolbar, the Labels header, or both from the extension's popup - [@dblock](https://github.com/dblock).
+* [#26](https://github.com/dblock/gmail-toggle/pull/26): Replace the README demo with a new recording of both buttons, hiding read labels and mail, and opening a label; regenerate the Chrome Web Store images and the video from its stills; and record it with `npm run record-demo` - [@dblock](https://github.com/dblock).
 * [#27](https://github.com/dblock/gmail-toggle/pull/27): Fix [#1](https://github.com/dblock/gmail-toggle/issues/1): choose whether the button hides read labels and categories, read mail, or both from the extension's popup - [@dblock](https://github.com/dblock).
 * Your contribution here.
 

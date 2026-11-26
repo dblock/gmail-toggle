@@ -1,0 +1,30 @@
+{
+  "viewport": {
+    "width": 1512,
+    "height": 862
+  },
+  "sidebar": {
+    "x": 68,
+    "y": 129,
+    "width": 256,
+    "height": 733
+  },
+  "labelsHeader": {
+    "x": 68,
+    "y": 469,
+    "width": 244,
+    "height": 40
+  },
+  "toolbar": {
+    "x": 340,
+    "y": 78,
+    "width": 176,
+    "height": 20
+  },
+  "button": {
+    "x": 480,
+    "y": 78,
+    "width": 16,
+    "height": 18
+  }
+}

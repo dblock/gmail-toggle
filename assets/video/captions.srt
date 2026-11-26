@@ -47,33 +47,37 @@ Nothing is moved or deleted.
 And it remembers your choice the next time GMail loads!
 
 13
-00:00:39,533 --> 00:00:40,049
-Want it?
+00:00:38,717 --> 00:00:43,189
+From the extension's menu, choose to hide read labels, read mail, or both.
 
 14
-00:00:40,049 --> 00:00:45,980
-Find Toggle Categories and Labels in GMail in the Chrome Web Store, and click Add to Chrome.
+00:00:44,700 --> 00:00:45,216
+Want it?
 
 15
-00:00:46,683 --> 00:00:49,024
-Reload GMail, and the button is ready.
+00:00:45,216 --> 00:00:51,147
+Find Toggle Categories and Labels in GMail in the Chrome Web Store, and click Add to Chrome.
 
 16
-00:00:49,024 --> 00:00:50,133
-Nothing to set up!
+00:00:51,850 --> 00:00:54,191
+Reload GMail, and the button is ready.
 
 17
-00:00:51,633 --> 00:00:56,544
-It only runs on GMail, asks for no extra permissions, and never touches your mail.
+00:00:54,191 --> 00:00:55,300
+Nothing to set up!
 
 18
-00:00:57,250 --> 00:01:00,360
-It's free and open source, at github.
+00:00:56,800 --> 00:01:01,711
+It only runs on GMail, asks for no extra permissions, and never touches your mail.
 
 19
-00:01:00,360 --> 00:01:02,377
-com/dblock/gmail-toggle.
+00:01:02,417 --> 00:01:05,527
+It's free and open source, at github.
 
 20
-00:01:02,377 --> 00:01:04,311
+00:01:05,527 --> 00:01:07,544
+com/dblock/gmail-toggle.
+
+21
+00:01:07,544 --> 00:01:09,477
 Enjoy a tidier sidebar!
