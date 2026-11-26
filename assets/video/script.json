@@ -1,5 +1,5 @@
 {
-  "title": "Toggle Categories and Labels in GMail",
+  "title": "Toggle Read and Unread Labels and Mail in GMail",
   "description": "A quick tour of the Chrome extension: one click hides the GMail categories and labels you've already read, and optionally your read mail.",
   "meta": "dblock/gmail-toggle · master @ bd6171a · screens from the project's demo recording · narration: ElevenLabs, voice Matilda · music: original",
   "lexicon": {
@@ -46,7 +46,7 @@
       "id": "install",
       "title": "Installing",
       "steps": [
-        "Want it? Find Toggle Categories and Labels in GMail in the Chrome Web Store, and click Add to Chrome.",
+        "Want it? Find Toggle Read and Unread Labels and Mail in GMail in the Chrome Web Store, and click Add to Chrome.",
         "Reload GMail, and the button is ready. Nothing to set up!"
       ]
     },
