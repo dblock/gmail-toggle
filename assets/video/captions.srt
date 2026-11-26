@@ -1,0 +1,79 @@
+1
+00:00:00,600 --> 00:00:02,160
+Got a lot of GMail labels?
+
+2
+00:00:02,160 --> 00:00:04,319
+Here's what your sidebar looks like.
+
+3
+00:00:05,050 --> 00:00:08,621
+A long, long list, and you've already read almost all of it!
+
+4
+00:00:10,133 --> 00:00:13,748
+Meet the open envelope, right in the toolbar above your messages.
+
+5
+00:00:14,450 --> 00:00:16,458
+Hover for Toggle Read/Unread.
+
+6
+00:00:16,458 --> 00:00:17,358
+Now click it!
+
+7
+00:00:18,867 --> 00:00:21,103
+Before the click, every single label.
+
+8
+00:00:21,817 --> 00:00:25,246
+After the click, only labels with unread mail, counts and all!
+
+9
+00:00:25,950 --> 00:00:29,268
+Their folders stay too, so you always know where a label lives.
+
+10
+00:00:30,800 --> 00:00:32,820
+Click again, and everything's back.
+
+11
+00:00:32,820 --> 00:00:34,435
+Nothing is moved or deleted.
+
+12
+00:00:35,150 --> 00:00:38,009
+And it remembers your choice the next time GMail loads!
+
+13
+00:00:39,533 --> 00:00:40,049
+Want it?
+
+14
+00:00:40,049 --> 00:00:45,980
+Find Toggle Categories and Labels in GMail in the Chrome Web Store, and click Add to Chrome.
+
+15
+00:00:46,683 --> 00:00:49,024
+Reload GMail, and the button is ready.
+
+16
+00:00:49,024 --> 00:00:50,133
+Nothing to set up!
+
+17
+00:00:51,633 --> 00:00:56,544
+It only runs on GMail, asks for no extra permissions, and never touches your mail.
+
+18
+00:00:57,250 --> 00:01:00,360
+It's free and open source, at github.
+
+19
+00:01:00,360 --> 00:01:02,377
+com/dblock/gmail-toggle.
+
+20
+00:01:02,377 --> 00:01:04,311
+Enjoy a tidier sidebar!

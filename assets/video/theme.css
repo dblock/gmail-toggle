@@ -1,0 +1,9 @@
+/* Boxes drawn over screenshots; they glow when emphasized but never move. */
+.box { position: absolute; border: 6px solid var(--accent); border-radius: 14px; background: transparent; }
+.box.is-current { box-shadow: 0 0 0 8px var(--glow); }
+.box.is-dim { opacity: 0; }
+.frame { position: relative; }
+.frame img { display: block; }
+.caption { font-size: 24px; color: var(--muted); }
+/* Screenshots scaled by whole numbers keep their pixels sharp. */
+.crisp { image-rendering: pixelated; }

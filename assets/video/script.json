@@ -1,0 +1,61 @@
+{
+  "title": "Toggle Categories and Labels in GMail",
+  "description": "A quick tour of the Chrome extension: one click hides the GMail categories and labels you've already read.",
+  "meta": "dblock/gmail-toggle · master @ bd6171a · screens from the project's demo recording · narration: ElevenLabs, voice Matilda · music: original",
+  "lexicon": {
+    "GMail": "Gmail",
+    "github.com/dblock/gmail-toggle": "github dot com slash d block slash Gmail toggle",
+    "Read/Unread": "Read slash Unread"
+  },
+  "scenes": [
+    {
+      "id": "before",
+      "title": "A busy sidebar",
+      "steps": [
+        "Got a lot of GMail labels? Here's what your sidebar looks like.",
+        "A long, long list, and you've already read almost all of it!"
+      ]
+    },
+    {
+      "id": "button",
+      "title": "One button",
+      "steps": [
+        "Meet the open envelope, right in the toolbar above your messages.",
+        "Hover for Toggle Read/Unread. Now click it!"
+      ]
+    },
+    {
+      "id": "after",
+      "title": "Only what's unread",
+      "steps": [
+        "Before the click, every single label.",
+        "After the click, only labels with unread mail, counts and all!",
+        "Their folders stay too, so you always know where a label lives."
+      ]
+    },
+    {
+      "id": "again",
+      "title": "Showing everything",
+      "steps": [
+        "Click again, and everything's back. Nothing is moved or deleted.",
+        "And it remembers your choice the next time GMail loads!"
+      ]
+    },
+    {
+      "id": "install",
+      "title": "Installing",
+      "steps": [
+        "Want it? Find Toggle Categories and Labels in GMail in the Chrome Web Store, and click Add to Chrome.",
+        "Reload GMail, and the button is ready. Nothing to set up!"
+      ]
+    },
+    {
+      "id": "end",
+      "title": "Get it",
+      "steps": [
+        "It only runs on GMail, asks for no extra permissions, and never touches your mail.",
+        "It's free and open source, at github.com/dblock/gmail-toggle. Enjoy a tidier sidebar!"
+      ]
+    }
+  ]
+}

@@ -10,3 +10,6 @@
 .DS_Store
 
 npm-debug.log*
+
+# Explainer video build output
+/assets/video/out
