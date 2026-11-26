@@ -18,7 +18,9 @@
     "lint:md": "markdownlint-cli2",
     "lint:spelling": "cspell --no-progress --gitignore .",
     "lint:fix": "eslint . --fix",
-    "test": "jest"
+    "test": "jest",
+    "store-images": "node scripts/chrome-web-store-images.mjs",
+    "video-music": "node scripts/video-music.mjs"
   },
   "dependencies": {
     "gmail-js": "^1.1.17",
