@@ -4,8 +4,8 @@ import { initPopup } from "popup";
 
 describe("Popup", () => {
   let chromeApi;
-  const radio = (value) =>
-    document.querySelector(`input[name="placement"][value="${value}"]`);
+  const radio = (value, name = "placement") =>
+    document.querySelector(`input[name="${name}"][value="${value}"]`);
 
   beforeEach(() => {
     document.documentElement.innerHTML = fs.readFileSync(
@@ -15,7 +15,10 @@ describe("Popup", () => {
     chromeApi = {
       tabs: {
         query: jest.fn(async () => [{ id: 7 }]),
-        sendMessage: jest.fn(async () => ({ placement: "labels" })),
+        sendMessage: jest.fn(async () => ({
+          placement: "labels",
+          hide: "mail",
+        })),
       },
     };
   });
@@ -23,10 +26,13 @@ describe("Popup", () => {
   test("checks the placement the GMail tab reports", async () => {
     await initPopup(document, chromeApi);
     expect(chromeApi.tabs.sendMessage).toHaveBeenCalledWith(7, {
-      type: "gmail-toggle.getPlacement",
+      type: "gmail-toggle.getSettings",
     });
     expect(radio("labels").checked).toBe(true);
-    expect(document.querySelector("fieldset").disabled).toBe(false);
+    expect(radio("mail", "hide").checked).toBe(true);
+    document
+      .querySelectorAll("fieldset")
+      .forEach((fieldset) => expect(fieldset.disabled).toBe(false));
     expect(document.getElementById("unavailable").hidden).toBe(true);
   });
 
@@ -40,12 +46,24 @@ describe("Popup", () => {
     });
   });
 
+  test("sends a new choice of what to hide to the GMail tab", async () => {
+    await initPopup(document, chromeApi);
+    radio("both", "hide").checked = true;
+    radio("both", "hide").dispatchEvent(new Event("change", { bubbles: true }));
+    expect(chromeApi.tabs.sendMessage).toHaveBeenLastCalledWith(7, {
+      type: "gmail-toggle.setHide",
+      hide: "both",
+    });
+  });
+
   test("asks to open GMail when the tab doesn't answer", async () => {
     chromeApi.tabs.sendMessage = jest.fn(async () => {
       throw new Error("Could not establish connection.");
     });
     await initPopup(document, chromeApi);
-    expect(document.querySelector("fieldset").disabled).toBe(true);
+    document
+      .querySelectorAll("fieldset")
+      .forEach((fieldset) => expect(fieldset.disabled).toBe(true));
     expect(document.getElementById("unavailable").hidden).toBe(false);
   });
 

@@ -20,6 +20,14 @@ const PLACEMENT_KEY = "gmail-toggle.placement";
 const PLACEMENTS = ["toolbar", "labels", "both"];
 const DEFAULT_PLACEMENT = "both";
 
+const HIDE_KEY = "gmail-toggle.hide";
+
+// What a toggle hides: read categories and labels ("folders"), read messages
+// in the message list ("mail"), or both.
+const HIDES = ["folders", "mail", "both"];
+const DEFAULT_HIDE = "folders";
+const HIDE_MAIL_CLASS = "gmail-toggle-hide-read-mail";
+
 let state = { showUnread: null };
 
 function loadHideRead() {
@@ -36,6 +44,23 @@ function loadPlacement() {
     return PLACEMENTS.includes(placement) ? placement : DEFAULT_PLACEMENT;
   } catch {
     return DEFAULT_PLACEMENT;
+  }
+}
+
+function loadHide() {
+  try {
+    const hide = window.localStorage.getItem(HIDE_KEY);
+    return HIDES.includes(hide) ? hide : DEFAULT_HIDE;
+  } catch {
+    return DEFAULT_HIDE;
+  }
+}
+
+function saveHide(hide) {
+  try {
+    window.localStorage.setItem(HIDE_KEY, hide);
+  } catch {
+    // Storage may be unavailable, for example when blocked by browser settings.
   }
 }
 
@@ -114,7 +139,30 @@ function nodesTree() {
 //   })
 // }
 
+const hidesFolders = () => state.hide !== "mail";
+const hidesMail = () => state.hide !== "folders";
+
+// Hides read message rows with a stylesheet while the class is on the page,
+// so rows GMail renders later are hidden too.
+function addHideMailStyle() {
+  if (document.getElementById(HIDE_MAIL_CLASS)) {
+    return;
+  }
+  const style = document.createElement("style");
+  style.id = HIDE_MAIL_CLASS;
+  style.textContent = `.${HIDE_MAIL_CLASS} tr.zA.yO { display: none !important; }`;
+  (document.head || document.documentElement).append(style);
+}
+
 function applyState() {
+  const hideFolders = !state.showUnread && hidesFolders();
+  const hideMail = !state.showUnread && hidesMail();
+
+  if (hideMail) {
+    addHideMailStyle();
+  }
+  document.documentElement.classList.toggle(HIDE_MAIL_CLASS, hideMail);
+
   function toggleLeaf(leaf) {
     const visibleChildren = leaf
       .getChildren()
@@ -134,7 +182,7 @@ function applyState() {
       const node = leaf.getData().node;
       const unread = node.parent().find(".n1").length;
       // console.log(`${node.text()}: ${unread}`)
-      if (state.showUnread == true) {
+      if (!hideFolders) {
         node.show();
       } else if (unread == 0) {
         node.hide();
@@ -172,7 +220,7 @@ function addsLabels(mutations) {
 function observeLabels() {
   labelsObserver = new MutationObserver((mutations) => {
     ensureButtons();
-    if (!state.showUnread && addsLabels(mutations)) {
+    if (!state.showUnread && hidesFolders() && addsLabels(mutations)) {
       applyState();
     }
   });
@@ -346,10 +394,16 @@ function setPlacement(placement) {
   ensureButtons();
 }
 
-const GET_PLACEMENT = "gmail-toggle.getPlacement";
-const SET_PLACEMENT = "gmail-toggle.setPlacement";
+function setHide(hide) {
+  state.hide = hide;
+  applyState();
+}
 
-// Answers the extension's popup, which reads and changes the placement.
+const GET_SETTINGS = "gmail-toggle.getSettings";
+const SET_PLACEMENT = "gmail-toggle.setPlacement";
+const SET_HIDE = "gmail-toggle.setHide";
+
+// Answers the extension's popup, which reads and changes the settings.
 function handleMessage(message, _sender, sendResponse) {
   if (
     message?.type === SET_PLACEMENT &&
@@ -357,24 +411,33 @@ function handleMessage(message, _sender, sendResponse) {
   ) {
     savePlacement(message.placement);
     setPlacement(message.placement);
-  } else if (message?.type !== GET_PLACEMENT) {
+  } else if (message?.type === SET_HIDE && HIDES.includes(message.hide)) {
+    saveHide(message.hide);
+    setHide(message.hide);
+  } else if (message?.type !== GET_SETTINGS) {
     return false;
   }
-  sendResponse({ placement: state.placement });
+  sendResponse({ placement: state.placement, hide: state.hide });
   return false;
 }
 
-// Follows a placement chosen in another GMail tab.
+// Follows settings chosen in another GMail tab.
 function handleStorage(event) {
   if (event.key === PLACEMENT_KEY) {
     setPlacement(loadPlacement());
+  } else if (event.key === HIDE_KEY) {
+    setHide(loadHide());
   }
 }
 
 function startExtension(gmail) {
   window.gmail = gmail;
 
-  state = { showUnread: !loadHideRead(), placement: loadPlacement() };
+  state = {
+    showUnread: !loadHideRead(),
+    placement: loadPlacement(),
+    hide: loadHide(),
+  };
 
   chrome.runtime.onMessage?.addListener(handleMessage);
   window.removeEventListener("storage", handleStorage);
@@ -387,6 +450,8 @@ function startExtension(gmail) {
 
   if (!state.showUnread) {
     applyState();
+  } else {
+    document.documentElement.classList.remove(HIDE_MAIL_CLASS);
   }
   observeLabels();
 

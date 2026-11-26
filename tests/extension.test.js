@@ -108,6 +108,120 @@ describe("Extension", () => {
       });
     });
 
+    describe("hiding read mail", () => {
+      // GMail's message list: a read row (yO) and an unread row (zE).
+      const rowsHtml =
+        '<table><tbody><tr class="zA yO"><td>Read</td></tr><tr class="zA zE"><td>Unread</td></tr></tbody></table>';
+      let html;
+      const start = (hide) => {
+        if (hide) {
+          window.localStorage.setItem("gmail-toggle.hide", hide);
+        }
+        html = document.createElement("div");
+        html.innerHTML =
+          fs.readFileSync(
+            path.resolve(__dirname, "./fixtures/categories.html"),
+            "utf8",
+          ) + rowsHtml;
+        document.body.appendChild(html);
+        startExtension(mockGmail);
+      };
+      const hiddenLabels = () =>
+        $(html).find('.TN[style*="display: none"]').length;
+      const hidesMail = () =>
+        document.documentElement.classList.contains(
+          "gmail-toggle-hide-read-mail",
+        );
+      const display = (selector) =>
+        window.getComputedStyle($(selector).get(0)).display;
+      const send = (message) => {
+        const sendResponse = jest.fn();
+        handleMessage(message, {}, sendResponse);
+        return sendResponse;
+      };
+
+      test("hides only read categories and labels by default", () => {
+        start();
+        toggle();
+        expect(hiddenLabels()).toEqual(42);
+        expect(hidesMail()).toBe(false);
+        expect(display("tr.zA.yO")).not.toEqual("none");
+      });
+
+      test("hides only read mail when chosen", () => {
+        start("mail");
+        toggle();
+        expect(hiddenLabels()).toEqual(0);
+        expect(hidesMail()).toBe(true);
+        expect(display("tr.zA.yO")).toEqual("none");
+        expect(display("tr.zA.zE")).not.toEqual("none");
+      });
+
+      test("hides read categories, labels, and mail when both are chosen", () => {
+        start("both");
+        toggle();
+        expect(hiddenLabels()).toEqual(42);
+        expect(hidesMail()).toBe(true);
+      });
+
+      test("shows everything again when toggled back", () => {
+        start("both");
+        toggle();
+        toggle();
+        expect(hiddenLabels()).toEqual(0);
+        expect(hidesMail()).toBe(false);
+        expect(display("tr.zA.yO")).not.toEqual("none");
+      });
+
+      test("applies and saves a new choice from the popup while hidden", () => {
+        start();
+        toggle();
+        expect(
+          send({ type: "gmail-toggle.setHide", hide: "mail" }),
+        ).toHaveBeenCalledWith({ placement: "both", hide: "mail" });
+        expect(window.localStorage.getItem("gmail-toggle.hide")).toEqual(
+          "mail",
+        );
+        expect(hiddenLabels()).toEqual(0);
+        expect(hidesMail()).toBe(true);
+      });
+
+      test("ignores an unknown choice", () => {
+        start();
+        expect(
+          send({ type: "gmail-toggle.setHide", hide: "everything" }),
+        ).not.toHaveBeenCalled();
+        expect(send({ type: "gmail-toggle.getSettings" })).toHaveBeenCalledWith(
+          { placement: "both", hide: "folders" },
+        );
+      });
+
+      test("falls back to folders for an unknown saved choice", () => {
+        start("everything");
+        toggle();
+        expect(hiddenLabels()).toEqual(42);
+        expect(hidesMail()).toBe(false);
+      });
+
+      test("follows a choice made in another GMail tab", () => {
+        start();
+        toggle();
+        window.localStorage.setItem("gmail-toggle.hide", "both");
+        window.dispatchEvent(
+          new StorageEvent("storage", { key: "gmail-toggle.hide" }),
+        );
+        expect(hiddenLabels()).toEqual(42);
+        expect(hidesMail()).toBe(true);
+      });
+
+      test("hides read mail again on reload when it was hidden", () => {
+        window.localStorage.setItem("gmail-toggle.hideRead", "true");
+        start("mail");
+        expect(hidesMail()).toBe(true);
+        expect(hiddenLabels()).toEqual(0);
+      });
+    });
+
     describe("placement", () => {
       // GMail's Labels header: the heading and its "+" (create new label) button.
       const labelsHeaderHtml =
@@ -176,16 +290,16 @@ describe("Extension", () => {
 
       test("answers the popup with the current placement", () => {
         start("labels");
-        expect(
-          send({ type: "gmail-toggle.getPlacement" }),
-        ).toHaveBeenCalledWith({ placement: "labels" });
+        expect(send({ type: "gmail-toggle.getSettings" })).toHaveBeenCalledWith(
+          { placement: "labels", hide: "folders" },
+        );
       });
 
       test("changes and saves the placement from the popup", () => {
         start();
         expect(
           send({ type: "gmail-toggle.setPlacement", placement: "toolbar" }),
-        ).toHaveBeenCalledWith({ placement: "toolbar" });
+        ).toHaveBeenCalledWith({ placement: "toolbar", hide: "folders" });
         expect(window.localStorage.getItem("gmail-toggle.placement")).toEqual(
           "toolbar",
         );
