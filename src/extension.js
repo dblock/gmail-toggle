@@ -127,6 +127,7 @@ function toggle() {
   state.showUnread = !state.showUnread;
   applyState();
   saveHideRead(!state.showUnread);
+  updateIcons();
 }
 
 let labelsObserver = null;
@@ -160,6 +161,18 @@ function observeLabels() {
 
 const BUTTON_CLASS = "gmail-toggle-button";
 
+// An open envelope while every label is shown, a closed one while read labels
+// are hidden.
+function iconUrl() {
+  return chrome.runtime.getURL(
+    state.showUnread ? "icons/icon_16.png" : "icons/icon_closed_16.png",
+  );
+}
+
+function updateIcons() {
+  $(`.${BUTTON_CLASS} img`).attr("src", iconUrl());
+}
+
 // Keeps the button visible when GMail hides toolbar items.
 function keepVisible(container) {
   const observer = new MutationObserver((mutationsList) => {
@@ -188,7 +201,7 @@ function keepVisible(container) {
 // Adds the button to a toolbar, with the same markup as gmail.js toolbar buttons.
 function addButton(toolbar) {
   const img = document.createElement("img");
-  img.src = chrome.runtime.getURL("icons/icon_16.png");
+  img.src = iconUrl();
 
   const button = $(document.createElement("div"))
     .attr("class", "T-I J-J5-Ji gmailjs lS asa")
@@ -236,6 +249,7 @@ function startExtension(gmail) {
 
   gmail.observe.on("load", () => {
     ensureButtons();
+    updateIcons();
   });
 }
 
