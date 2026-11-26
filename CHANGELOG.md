@@ -4,6 +4,7 @@
 
 * [#21](https://github.com/dblock/gmail-toggle/pull/21): Install from the Chrome Web Store, and document uploading releases to it - [@dblock](https://github.com/dblock).
 * [#22](https://github.com/dblock/gmail-toggle/pull/22): Add Chrome Web Store screenshots and promo tiles, generated from the demo with `npm run store-images`, and a narrated explainer video - [@dblock](https://github.com/dblock).
+* [#23](https://github.com/dblock/gmail-toggle/pull/23): Fix [#7](https://github.com/dblock/gmail-toggle/issues/7): keep the toolbar button when GMail shows a label, category, or search - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ## 0.5.0 (2026/11/26)
