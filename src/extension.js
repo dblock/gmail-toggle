@@ -13,6 +13,12 @@ const loaderId = setInterval(() => {
 }, 100);
 
 const HIDE_READ_KEY = "gmail-toggle.hideRead";
+const PLACEMENT_KEY = "gmail-toggle.placement";
+
+// Where the button goes: the message list toolbar, the Labels header next to
+// "+", or both.
+const PLACEMENTS = ["toolbar", "labels", "both"];
+const DEFAULT_PLACEMENT = "both";
 
 let state = { showUnread: null };
 
@@ -21,6 +27,23 @@ function loadHideRead() {
     return window.localStorage.getItem(HIDE_READ_KEY) === "true";
   } catch {
     return false;
+  }
+}
+
+function loadPlacement() {
+  try {
+    const placement = window.localStorage.getItem(PLACEMENT_KEY);
+    return PLACEMENTS.includes(placement) ? placement : DEFAULT_PLACEMENT;
+  } catch {
+    return DEFAULT_PLACEMENT;
+  }
+}
+
+function savePlacement(placement) {
+  try {
+    window.localStorage.setItem(PLACEMENT_KEY, placement);
+  } catch {
+    // Storage may be unavailable, for example when blocked by browser settings.
   }
 }
 
@@ -160,17 +183,19 @@ function observeLabels() {
 }
 
 const BUTTON_CLASS = "gmail-toggle-button";
+const TOOLBAR_BUTTON_CLASS = "gmail-toggle-toolbar-button";
+const LABELS_BUTTON_CLASS = "gmail-toggle-labels-button";
 
 // An open envelope while every label is shown, a closed one while read labels
-// are hidden.
-function iconUrl() {
-  return chrome.runtime.getURL(
-    state.showUnread ? "icons/icon_16.png" : "icons/icon_closed_16.png",
-  );
+// are hidden, with a 32 pixel version for high-density screens.
+function icon(img) {
+  const name = state.showUnread ? "icon" : "icon_closed";
+  img.src = chrome.runtime.getURL(`icons/${name}_16.png`);
+  img.srcset = `${chrome.runtime.getURL(`icons/${name}_32.png`)} 2x`;
 }
 
 function updateIcons() {
-  $(`.${BUTTON_CLASS} img`).attr("src", iconUrl());
+  $(`.${BUTTON_CLASS} img`).each((_, img) => icon(img));
 }
 
 // Keeps the button visible when GMail hides toolbar items.
@@ -201,7 +226,7 @@ function keepVisible(container) {
 // Adds the button to a toolbar, with the same markup as gmail.js toolbar buttons.
 function addButton(toolbar) {
   const img = document.createElement("img");
-  img.src = iconUrl();
+  icon(img);
 
   const button = $(document.createElement("div"))
     .attr("class", "T-I J-J5-Ji gmailjs lS asa")
@@ -209,7 +234,7 @@ function addButton(toolbar) {
     .on("click", () => toggle());
 
   const container = $(document.createElement("div"))
-    .attr("class", `G-Ni J-J5-Ji ${BUTTON_CLASS}`)
+    .attr("class", `G-Ni J-J5-Ji ${BUTTON_CLASS} ${TOOLBAR_BUTTON_CLASS}`)
     .attr("data-tooltip", "Toggle Read/Unread")
     .append(button);
 
@@ -219,10 +244,10 @@ function addButton(toolbar) {
 
 // GMail renders a new message list toolbar for each view, for example when a
 // label is selected, so add the button to every toolbar that doesn't have it.
-function ensureButtons() {
+function ensureToolbarButtons() {
   $("[gh='mtb']").each((_, element) => {
     let toolbar = $(element);
-    if (toolbar.find(`.${BUTTON_CLASS}`).length > 0) {
+    if (toolbar.find(`.${TOOLBAR_BUTTON_CLASS}`).length > 0) {
       return;
     }
     while (toolbar.children().length === 1) {
@@ -232,10 +257,128 @@ function ensureButtons() {
   });
 }
 
+// Styles the Labels header button like the "+" next to it.
+function addLabelsButtonStyle() {
+  if (document.getElementById(LABELS_BUTTON_CLASS)) {
+    return;
+  }
+  const style = document.createElement("style");
+  style.id = LABELS_BUTTON_CLASS;
+  style.textContent = `
+    .${LABELS_BUTTON_CLASS} {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      margin-left: auto;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .${LABELS_BUTTON_CLASS}:hover,
+    .${LABELS_BUTTON_CLASS}:focus-visible {
+      background-color: rgba(32, 33, 36, 0.08);
+      outline: none;
+    }
+    .${LABELS_BUTTON_CLASS} img {
+      width: 16px;
+      height: 16px;
+      /* The envelopes sit low in their square; line them up with the "+". */
+      transform: translateY(-1.5px);
+    }
+  `;
+  (document.head || document.documentElement).append(style);
+}
+
+// Adds the button to the Labels header, just before its "+" (create new label)
+// button. GMail's class names don't depend on the interface language.
+function ensureLabelsButton() {
+  $(".aAw").each((_, header) => {
+    const create = $(header).children(".aAu").first();
+    if (
+      create.length === 0 ||
+      $(header).find(`.${LABELS_BUTTON_CLASS}`).length > 0
+    ) {
+      return;
+    }
+    addLabelsButtonStyle();
+
+    const img = document.createElement("img");
+    icon(img);
+    img.alt = "";
+
+    const button = $(document.createElement("div"))
+      .attr({
+        class: `${BUTTON_CLASS} ${LABELS_BUTTON_CLASS}`,
+        role: "button",
+        tabindex: "0",
+        "aria-label": "Toggle Read/Unread",
+        "data-tooltip": "Toggle Read/Unread",
+      })
+      .append(img)
+      .on("click", () => toggle())
+      .on("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          toggle();
+        }
+      });
+    create.before(button);
+  });
+}
+
+// Shows the button where the placement says, and removes it elsewhere.
+function ensureButtons() {
+  if (state.placement === "labels") {
+    $(`.${TOOLBAR_BUTTON_CLASS}`).remove();
+  } else {
+    ensureToolbarButtons();
+  }
+  if (state.placement === "toolbar") {
+    $(`.${LABELS_BUTTON_CLASS}`).remove();
+  } else {
+    ensureLabelsButton();
+  }
+}
+
+function setPlacement(placement) {
+  state.placement = placement;
+  ensureButtons();
+}
+
+const GET_PLACEMENT = "gmail-toggle.getPlacement";
+const SET_PLACEMENT = "gmail-toggle.setPlacement";
+
+// Answers the extension's popup, which reads and changes the placement.
+function handleMessage(message, _sender, sendResponse) {
+  if (
+    message?.type === SET_PLACEMENT &&
+    PLACEMENTS.includes(message.placement)
+  ) {
+    savePlacement(message.placement);
+    setPlacement(message.placement);
+  } else if (message?.type !== GET_PLACEMENT) {
+    return false;
+  }
+  sendResponse({ placement: state.placement });
+  return false;
+}
+
+// Follows a placement chosen in another GMail tab.
+function handleStorage(event) {
+  if (event.key === PLACEMENT_KEY) {
+    setPlacement(loadPlacement());
+  }
+}
+
 function startExtension(gmail) {
   window.gmail = gmail;
 
-  state = { showUnread: !loadHideRead() };
+  state = { showUnread: !loadHideRead(), placement: loadPlacement() };
+
+  chrome.runtime.onMessage?.addListener(handleMessage);
+  window.removeEventListener("storage", handleStorage);
+  window.addEventListener("storage", handleStorage);
 
   if (labelsObserver) {
     labelsObserver.disconnect?.();
@@ -253,4 +396,4 @@ function startExtension(gmail) {
   });
 }
 
-export { startExtension, toggle };
+export { startExtension, toggle, handleMessage };

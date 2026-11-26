@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Toggle Categories and Labels in GMail</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --ink: #202124;
+        --muted: #5f6368;
+        --line: #dadce0;
+        --accent: #1a73e8;
+        color-scheme: light;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #202124;
+          --ink: #e8eaed;
+          --muted: #9aa0a6;
+          --line: #3c4043;
+          --accent: #8ab4f8;
+          color-scheme: dark;
+        }
+      }
+      body {
+        margin: 0;
+        width: 260px;
+        padding: 14px 16px;
+        background: var(--bg);
+        color: var(--ink);
+        font:
+          13px/1.4 system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      fieldset {
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+      legend {
+        margin-bottom: 6px;
+        color: var(--muted);
+      }
+      label {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 4px 0;
+        cursor: pointer;
+      }
+      fieldset:disabled label {
+        cursor: default;
+        opacity: 0.5;
+      }
+      input {
+        accent-color: var(--accent);
+        margin: 0;
+      }
+      #unavailable {
+        margin: 8px 0 0;
+        color: var(--muted);
+      }
+      footer {
+        display: flex;
+        gap: 14px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--line);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover,
+      a:focus-visible {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Toggle Categories and Labels</h1>
+    <form id="placement">
+      <fieldset disabled>
+        <legend>Show the button in</legend>
+        <label
+          ><input type="radio" name="placement" value="toolbar" /> Message
+          toolbar</label
+        >
+        <label
+          ><input type="radio" name="placement" value="labels" /> Labels
+          header</label
+        >
+        <label><input type="radio" name="placement" value="both" /> Both</label>
+      </fieldset>
+      <p id="unavailable" hidden>
+        Open GMail in this tab to choose where the button appears.
+      </p>
+    </form>
+    <footer>
+      <a
+        href="https://chromewebstore.google.com/detail/toggle-categories-and-lab/ckejkcopppahbffilefogkmhcgepmnog"
+        target="_blank"
+        rel="noopener"
+        >Chrome Web Store</a
+      >
+      <a
+        href="https://github.com/dblock/gmail-toggle"
+        target="_blank"
+        rel="noopener"
+        >GitHub</a
+      >
+    </footer>
+    <script src="popup.js"></script>
+  </body>
+</html>

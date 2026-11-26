@@ -15,6 +15,8 @@ Install [Toggle Categories and Labels in GMail](https://chromewebstore.google.co
 
 Open [GMail](https://mail.google.com) and click the extension's button in the toolbar above the message list to hide categories and labels without unread messages. Click it again to show them. The extension remembers your choice when GMail reloads.
 
+The button appears both in that toolbar and next to the "+" in the sidebar's Labels header. To choose one, click the extension's icon in Chrome's toolbar (or in its Extensions menu) while GMail is open, and pick Message toolbar, Labels header, or Both.
+
 ## Contributing
 
 You're encouraged to contribute to this project. See [CONTRIBUTING](CONTRIBUTING.md) for details, [CHANGELOG](CHANGELOG.md) for what changed in each release, and [RELEASING](RELEASING.md) for how releases are made.

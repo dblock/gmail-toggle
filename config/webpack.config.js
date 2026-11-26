@@ -11,6 +11,7 @@ const config = (env, argv) =>
     entry: {
       extension: PATHS.src + "/extension.js",
       gmailJsLoader: PATHS.src + "/gmailJsLoader.js",
+      popup: PATHS.src + "/popup.js",
     },
     devtool: argv.mode === "production" ? false : "source-map",
   });
