@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1 (Next)
+
+* Your contribution here.
+
 ## 0.6.0 (2026/11/26)
 
 * [#21](https://github.com/dblock/gmail-toggle/pull/21): Install from the Chrome Web Store, and document uploading releases to it - [@dblock](https://github.com/dblock).
