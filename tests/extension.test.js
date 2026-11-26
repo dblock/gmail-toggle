@@ -1,4 +1,4 @@
-import { startExtension, toggle } from "extension";
+import { startExtension, toggle, handleMessage } from "extension";
 import fs from "fs";
 import path from "path";
 import $ from "jquery";
@@ -15,7 +15,8 @@ describe("Extension", () => {
     // A GMail message list toolbar: [gh='mtb'] wraps the row of buttons.
     const toolbarHtml =
       '<div gh="mtb"><div><div class="row"><div class="refresh"></div><div class="more"></div></div></div></div>';
-    const buttons = (root = document) => $(root).find(".gmail-toggle-button");
+    const buttons = (root = document) =>
+      $(root).find(".gmail-toggle-toolbar-button");
 
     beforeEach(() => {
       window.localStorage.clear();
@@ -56,12 +57,18 @@ describe("Extension", () => {
 
     test("shows an open envelope while every label is shown", () => {
       expect(buttons().find("img").attr("src")).toEqual("icons/icon_16.png");
+      expect(buttons().find("img").attr("srcset")).toEqual(
+        "icons/icon_32.png 2x",
+      );
     });
 
     test("shows a closed envelope while read labels are hidden", () => {
       toggle();
       expect(buttons().find("img").attr("src")).toEqual(
         "icons/icon_closed_16.png",
+      );
+      expect(buttons().find("img").attr("srcset")).toEqual(
+        "icons/icon_closed_32.png 2x",
       );
     });
 
@@ -98,6 +105,123 @@ describe("Extension", () => {
       expect(extensionObserver.observe).toHaveBeenCalledWith(buttons().get(0), {
         attributeFilter: ["style"],
         attributes: true,
+      });
+    });
+
+    describe("placement", () => {
+      // GMail's Labels header: the heading and its "+" (create new label) button.
+      const labelsHeaderHtml =
+        '<div class="aAw"><span class="aAv" role="heading">Labels</span><div class="aAu" role="button"></div></div>';
+      const labelsButtons = () => $(".gmail-toggle-labels-button");
+      const start = (placement) => {
+        if (placement) {
+          window.localStorage.setItem("gmail-toggle.placement", placement);
+        }
+        document.body.innerHTML = toolbarHtml + labelsHeaderHtml;
+        startExtension(mockGmail);
+      };
+      const send = (message) => {
+        const sendResponse = jest.fn();
+        handleMessage(message, {}, sendResponse);
+        return sendResponse;
+      };
+
+      test("shows the button in the toolbar and the Labels header by default", () => {
+        start();
+        expect(buttons().length).toEqual(1);
+        expect(labelsButtons().length).toEqual(1);
+        expect(labelsButtons().next().hasClass("aAu")).toBe(true);
+        expect(labelsButtons().attr("role")).toEqual("button");
+        expect(labelsButtons().attr("data-tooltip")).toEqual(
+          "Toggle Read/Unread",
+        );
+      });
+
+      test("shows only the toolbar button when chosen", () => {
+        start("toolbar");
+        expect(buttons().length).toEqual(1);
+        expect(labelsButtons().length).toEqual(0);
+      });
+
+      test("shows only the Labels header button when chosen", () => {
+        start("labels");
+        expect(buttons().length).toEqual(0);
+        expect(labelsButtons().length).toEqual(1);
+      });
+
+      test("falls back to both for an unknown placement", () => {
+        start("sidebar");
+        expect(buttons().length).toEqual(1);
+        expect(labelsButtons().length).toEqual(1);
+      });
+
+      test("adds the Labels header button once", () => {
+        start();
+        startExtension(mockGmail);
+        expect(labelsButtons().length).toEqual(1);
+        expect($("#gmail-toggle-labels-button").length).toEqual(1);
+      });
+
+      test("toggles from the Labels header button by click and keyboard", () => {
+        start();
+        labelsButtons().trigger("click");
+        expect(labelsButtons().find("img").attr("src")).toEqual(
+          "icons/icon_closed_16.png",
+        );
+        labelsButtons().trigger($.Event("keydown", { key: "Enter" }));
+        expect(labelsButtons().find("img").attr("src")).toEqual(
+          "icons/icon_16.png",
+        );
+      });
+
+      test("answers the popup with the current placement", () => {
+        start("labels");
+        expect(
+          send({ type: "gmail-toggle.getPlacement" }),
+        ).toHaveBeenCalledWith({ placement: "labels" });
+      });
+
+      test("changes and saves the placement from the popup", () => {
+        start();
+        expect(
+          send({ type: "gmail-toggle.setPlacement", placement: "toolbar" }),
+        ).toHaveBeenCalledWith({ placement: "toolbar" });
+        expect(window.localStorage.getItem("gmail-toggle.placement")).toEqual(
+          "toolbar",
+        );
+        expect(labelsButtons().length).toEqual(0);
+        expect(buttons().length).toEqual(1);
+        send({ type: "gmail-toggle.setPlacement", placement: "labels" });
+        expect(labelsButtons().length).toEqual(1);
+        expect(buttons().length).toEqual(0);
+      });
+
+      test("ignores unknown placements and messages", () => {
+        start();
+        expect(
+          send({ type: "gmail-toggle.setPlacement", placement: "sidebar" }),
+        ).not.toHaveBeenCalled();
+        expect(send({ type: "other" })).not.toHaveBeenCalled();
+        expect(buttons().length).toEqual(1);
+        expect(labelsButtons().length).toEqual(1);
+      });
+
+      test("follows a placement chosen in another GMail tab", () => {
+        start();
+        window.localStorage.setItem("gmail-toggle.placement", "labels");
+        window.dispatchEvent(
+          new StorageEvent("storage", { key: "gmail-toggle.placement" }),
+        );
+        expect(buttons().length).toEqual(0);
+        expect(labelsButtons().length).toEqual(1);
+      });
+
+      test("listens for messages from the popup", () => {
+        global.chrome.runtime.onMessage = { addListener: jest.fn() };
+        start();
+        expect(
+          global.chrome.runtime.onMessage.addListener,
+        ).toHaveBeenCalledWith(handleMessage);
       });
     });
 

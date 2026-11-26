@@ -6,6 +6,7 @@
 * [#22](https://github.com/dblock/gmail-toggle/pull/22): Add Chrome Web Store screenshots and promo tiles, generated from the demo with `npm run store-images`, and a narrated explainer video - [@dblock](https://github.com/dblock).
 * [#23](https://github.com/dblock/gmail-toggle/pull/23): Fix [#7](https://github.com/dblock/gmail-toggle/issues/7): keep the toolbar button when GMail shows a label, category, or search - [@dblock](https://github.com/dblock).
 * [#24](https://github.com/dblock/gmail-toggle/pull/24): Show a closed envelope on the toolbar button while read categories and labels are hidden, and an open one while everything is shown - [@dblock](https://github.com/dblock).
+* [#25](https://github.com/dblock/gmail-toggle/pull/25): Fix [#9](https://github.com/dblock/gmail-toggle/issues/9): show the button next to "+" in the Labels header too, and choose the message toolbar, the Labels header, or both from the extension's popup - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ## 0.5.0 (2026/11/26)

@@ -11,6 +11,14 @@
     "128": "icons/icon_128.png",
     "512": "icons/icon_512.png"
   },
+  "action": {
+    "default_title": "Toggle Categories and Labels in GMail",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon_16.png",
+      "32": "icons/icon_32.png"
+    }
+  },
   "web_accessible_resources": [
     {
       "resources": ["icons/*.png"],
