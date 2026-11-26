@@ -13,6 +13,8 @@ ffprobe
 Flaticon
 gmailjs
 Intridea
+linecap
+linejoin
 magick
 marekkirejczyk
 Milkghost
@@ -21,4 +23,5 @@ movflags
 nitpicky
 pointsize
 Prefilter
+rsvg
 sidechaincompress

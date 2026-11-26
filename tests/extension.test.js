@@ -23,7 +23,7 @@ describe("Extension", () => {
 
       global.chrome = {
         runtime: {
-          getURL: jest.fn(() => "icon_16.png"),
+          getURL: jest.fn((path) => path),
         },
       };
 
@@ -51,7 +51,32 @@ describe("Extension", () => {
     test("adds a toolbar button next to the other buttons", () => {
       expect(buttons().length).toEqual(1);
       expect(buttons().parent().hasClass("row")).toBe(true);
-      expect(buttons().find("img").attr("src")).toEqual("icon_16.png");
+      expect(buttons().find("img").attr("src")).toEqual("icons/icon_16.png");
+    });
+
+    test("shows an open envelope while every label is shown", () => {
+      expect(buttons().find("img").attr("src")).toEqual("icons/icon_16.png");
+    });
+
+    test("shows a closed envelope while read labels are hidden", () => {
+      toggle();
+      expect(buttons().find("img").attr("src")).toEqual(
+        "icons/icon_closed_16.png",
+      );
+    });
+
+    test("shows an open envelope again after toggling back", () => {
+      toggle();
+      toggle();
+      expect(buttons().find("img").attr("src")).toEqual("icons/icon_16.png");
+    });
+
+    test("shows a closed envelope on reload when read labels were hidden", () => {
+      window.localStorage.setItem("gmail-toggle.hideRead", "true");
+      startExtension(mockGmail);
+      expect(buttons().find("img").attr("src")).toEqual(
+        "icons/icon_closed_16.png",
+      );
     });
 
     test("adds a tooltip", () => {
