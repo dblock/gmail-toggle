@@ -1,6 +1,6 @@
 {
   "title": "Toggle Categories and Labels in GMail",
-  "description": "A quick tour of the Chrome extension: one click hides the GMail categories and labels you've already read.",
+  "description": "A quick tour of the Chrome extension: one click hides the GMail categories and labels you've already read, and optionally your read mail.",
   "meta": "dblock/gmail-toggle · master @ bd6171a · screens from the project's demo recording · narration: ElevenLabs, voice Matilda · music: original",
   "lexicon": {
     "GMail": "Gmail",
@@ -38,7 +38,8 @@
       "title": "Showing everything",
       "steps": [
         "Click again, and everything's back. Nothing is moved or deleted.",
-        "And it remembers your choice the next time GMail loads!"
+        "And it remembers your choice the next time GMail loads!",
+        "From the extension's menu, choose to hide read labels, read mail, or both."
       ]
     },
     {

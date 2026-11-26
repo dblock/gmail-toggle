@@ -20,7 +20,8 @@
     "lint:fix": "eslint . --fix",
     "test": "jest",
     "store-images": "node scripts/chrome-web-store-images.mjs",
-    "video-music": "node scripts/video-music.mjs"
+    "video-music": "node scripts/video-music.mjs",
+    "record-demo": "node scripts/record-demo.mjs"
   },
   "dependencies": {
     "gmail-js": "^1.1.17",

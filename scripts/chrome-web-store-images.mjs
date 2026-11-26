@@ -1,8 +1,9 @@
 // Renders the Chrome Web Store screenshots and promo tiles in assets/chrome-web-store, and the screenshot crops
-// that the explainer video in assets/video uses, from demo.gif and the extension icon. Requires ImageMagick 7
-// (`magick`) on the PATH. Run with `npm run store-images`.
+// that the explainer video in assets/video uses, from the demo recording's stills (source-*.png), the positions
+// measured on that page (source.json), and the extension icon. Requires ImageMagick 7 (`magick`) on the PATH.
+// Run with `npm run store-images`; `npm run record-demo` records new stills.
 import { execFileSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, rmSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
@@ -16,8 +17,20 @@ const muted = "#3C4043";
 const accent = "#1A73E8";
 const title = "Toggle Categories and Labels in GMail";
 
-// demo.gif frames 13 and 14 show the label list before and after toggling.
-const frames = { before: 13, after: 14 };
+// Stills of the GMail page, 1:1 with its CSS pixels: every label shown with the pointer on the button, read labels
+// hidden, and every label shown with the pointer away from the toolbar.
+const frames = {
+  before: join(out, "source-shown.png"),
+  after: join(out, "source-hidden.png"),
+};
+const idle = join(out, "source-idle.png");
+const layout = JSON.parse(readFileSync(join(out, "source.json"), "utf8"));
+// The label list starts just below the Labels heading, at the sidebar's left edge.
+const labels = { x: layout.sidebar.x - 2, y: layout.labelsHeader.y + 1 };
+const buttonCenter = {
+  x: layout.button.x + Math.round(layout.button.width / 2),
+  y: layout.button.y + Math.round(layout.button.height / 2),
+};
 
 const magick = (...args) =>
   execFileSync("magick", args.flat(), { stdio: "inherit" });
@@ -54,13 +67,10 @@ const tile = (name) => [
 
 const work = mkdtempSync(join(tmpdir(), "chrome-web-store-"));
 try {
-  const frame = (n) => join(work, `frame-${String(n).padStart(2, "0")}.png`);
-  magick(join(root, "demo.gif"), "-coalesce", join(work, "frame-%02d.png"));
-
-  // Screenshots: a 1280x800 crop of the GMail window, pixel for pixel, so text stays sharp.
-  for (const [state, n] of Object.entries(frames)) {
+  // Screenshots: a 1280x800 crop of the GMail page, pixel for pixel, so text stays sharp.
+  for (const [state, still] of Object.entries(frames)) {
     magick(
-      frame(n),
+      still,
       "-crop",
       "1280x800+0+0",
       "+repage",
@@ -68,22 +78,22 @@ try {
     );
   }
 
-  // Video crops, pixel for pixel: the label list before and after toggling, and the toolbar from the first
-  // frame, where the cursor does not cover the extension's button.
+  // Video crops, pixel for pixel: the label list before and after toggling, and the toolbar around the button
+  // from the still where the pointer is away from it.
   mkdirSync(videoShots, { recursive: true });
   for (const state of Object.keys(frames)) {
     magick(
       join(out, `screenshot-${state}.png`),
       "-crop",
-      "262x300+66+500",
+      `262x300+${labels.x}+${labels.y}`,
       "+repage",
       png24(join(videoShots, `labels-${state}.png`)),
     );
   }
   magick(
-    frame(0),
+    idle,
     "-crop",
-    "460x60+320+196",
+    `460x60+${buttonCenter.x - 168}+${buttonCenter.y - 30}`,
     "+repage",
     png24(join(videoShots, "toolbar.png")),
   );
@@ -113,11 +123,11 @@ try {
   );
 
   // Marquee promo tile, 1400x560: name and tagline beside the label list before and after toggling.
-  for (const [state, n] of Object.entries(frames)) {
+  for (const [state, still] of Object.entries(frames)) {
     magick(
-      frame(n),
+      still,
       "-crop",
-      "262x360+66+500",
+      `262x360+${labels.x}+${labels.y}`,
       "+repage",
       "-bordercolor",
       "#DADCE0",
@@ -160,7 +170,7 @@ try {
       28,
       560,
       muted,
-      "One click hides the categories and labels you have already read.",
+      "One click hides what you have already read.",
     ),
     "-geometry",
     "+80+380",
