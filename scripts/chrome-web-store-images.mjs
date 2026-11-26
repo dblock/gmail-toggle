@@ -15,7 +15,7 @@ const background = "#E8F0FE";
 const ink = "#202124";
 const muted = "#3C4043";
 const accent = "#1A73E8";
-const title = "Toggle Categories and Labels in GMail";
+const title = "Toggle Read and Unread Labels and Mail in GMail";
 
 // Stills of the GMail page, 1:1 with its CSS pixels: every label shown with the pointer on the button, read labels
 // hidden, and every label shown with the pointer away from the toolbar.
@@ -161,9 +161,9 @@ try {
     "-geometry",
     "+80+70",
     "-composite",
-    text("Arial-Bold", 54, 560, ink, title),
+    text("Arial-Bold", 46, 600, ink, title),
     "-geometry",
-    "+80+210",
+    "+80+212",
     "-composite",
     text(
       "Arial",
@@ -173,7 +173,7 @@ try {
       "One click hides what you have already read.",
     ),
     "-geometry",
-    "+80+380",
+    "+80+350",
     "-composite",
     join(work, "before.png"),
     "-geometry",

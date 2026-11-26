@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Toggle Categories and Labels in GMail",
+  "name": "Toggle Read and Unread Labels and Mail in GMail",
   "version": "0.6.1",
   "author": "Daniel Doubrovkine <dblock@dblock.org>",
-  "description": "A Chrome extension that toggles (shows or hides) categories and labels that have unread messages in GMail.",
+  "description": "A Chrome extension that shows and hides the GMail labels, categories, and messages you've already read.",
   "icons": {
     "16": "icons/icon_16.png",
     "32": "icons/icon_32.png",
@@ -12,7 +12,7 @@
     "512": "icons/icon_512.png"
   },
   "action": {
-    "default_title": "Toggle Categories and Labels in GMail",
+    "default_title": "Toggle Read and Unread Labels and Mail in GMail",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon_16.png",
