@@ -45,6 +45,9 @@
         padding: 0;
         border: 0;
       }
+      fieldset + fieldset {
+        margin-top: 10px;
+      }
       legend {
         margin-bottom: 6px;
         color: var(--muted);
@@ -87,7 +90,16 @@
   </head>
   <body>
     <h1>Toggle Categories and Labels</h1>
-    <form id="placement">
+    <form id="settings">
+      <fieldset disabled>
+        <legend>Hide when toggled</legend>
+        <label
+          ><input type="radio" name="hide" value="folders" /> Read labels and
+          categories</label
+        >
+        <label><input type="radio" name="hide" value="mail" /> Read mail</label>
+        <label><input type="radio" name="hide" value="both" /> Both</label>
+      </fieldset>
       <fieldset disabled>
         <legend>Show the button in</legend>
         <label
@@ -101,7 +113,7 @@
         <label><input type="radio" name="placement" value="both" /> Both</label>
       </fieldset>
       <p id="unavailable" hidden>
-        Open GMail in this tab to choose where the button appears.
+        Open GMail in this tab to change these settings.
       </p>
     </form>
     <footer>
