@@ -42,6 +42,14 @@ gh run list --workflow release.yml --limit 5
 gh release view vX.Y.Z
 ```
 
+## Publish to the Chrome Web Store
+
+The extension is installed from the [Chrome Web Store](https://chromewebstore.google.com/detail/toggle-categories-and-lab/ckejkcopppahbffilefogkmhcgepmnog), which the workflow does not update. Download `gmail-toggle-vX.Y.Z.zip` from the GitHub Release, upload it as a new package of the existing item in the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole), and submit it for review. The new version reaches users after Google approves it.
+
+```bash
+gh release download vX.Y.Z --pattern 'gmail-toggle-v*.zip'
+```
+
 ## Recovery
 
 Do not rerun a failed release blindly. The workflow retains its artifacts, including `release.json`, the zip, and the release notes, for 30 days. Inspect them, the `master` branch, the tag, and the GitHub Release before retrying, as described in [Recovery and Reconciliation](https://github.com/dblock/npm-package-release/blob/master/docs/recovery.md).
