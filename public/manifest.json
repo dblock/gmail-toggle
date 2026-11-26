@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Toggle Read and Unread Labels and Mail in GMail",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "author": "Daniel Doubrovkine <dblock@dblock.org>",
   "description": "A Chrome extension that shows and hides the GMail labels, categories, and messages you've already read.",
   "icons": {
