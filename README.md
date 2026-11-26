@@ -9,7 +9,7 @@ A Chrome extension that toggles (shows or hides) categories and labels that have
 
 ## Installation
 
-Download `gmail-toggle-v<version>.zip` from the [latest release](https://github.com/dblock/gmail-toggle/releases/latest) and unzip it. In Chrome, open `chrome://extensions`, turn on Developer mode, choose Load unpacked, and select the unzipped folder. To build the extension from source instead, see [CONTRIBUTING](CONTRIBUTING.md).
+Install [Toggle Categories and Labels in GMail](https://chromewebstore.google.com/detail/toggle-categories-and-lab/ckejkcopppahbffilefogkmhcgepmnog) from the Chrome Web Store. To build the extension from source instead, see [CONTRIBUTING](CONTRIBUTING.md).
 
 ## Usage
 
