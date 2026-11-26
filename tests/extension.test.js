@@ -10,33 +10,24 @@ const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
 describe("Extension", () => {
   describe("#startExtension", () => {
     let mockGmail;
-    let extensionButton;
-    let extensionButtonContainer;
     let extensionObserver;
+
+    // A GMail message list toolbar: [gh='mtb'] wraps the row of buttons.
+    const toolbarHtml =
+      '<div gh="mtb"><div><div class="row"><div class="refresh"></div><div class="more"></div></div></div></div>';
+    const buttons = (root = document) => $(root).find(".gmail-toggle-button");
 
     beforeEach(() => {
       window.localStorage.clear();
-      document.body.innerHTML = "";
+      document.body.innerHTML = toolbarHtml;
 
       global.chrome = {
         runtime: {
-          getURL: jest.fn(),
+          getURL: jest.fn(() => "icon_16.png"),
         },
       };
-
-      extensionButtonContainer = {
-        get: jest.fn(() => extensionButton),
-        attr: jest.fn(() => {}),
-      };
-
-      extensionButton = document.createElement("div");
 
       mockGmail = {
-        tools: {
-          add_toolbar_button: jest.fn(() => {
-            return extensionButtonContainer;
-          }),
-        },
         observe: {
           on: jest.fn((event, callback) => {
             if (event === "load") {
@@ -57,15 +48,14 @@ describe("Extension", () => {
       startExtension(mockGmail);
     });
 
-    test("adds a toolbar button", () => {
-      expect(mockGmail.tools.add_toolbar_button).toHaveBeenCalled();
+    test("adds a toolbar button next to the other buttons", () => {
+      expect(buttons().length).toEqual(1);
+      expect(buttons().parent().hasClass("row")).toBe(true);
+      expect(buttons().find("img").attr("src")).toEqual("icon_16.png");
     });
 
     test("adds a tooltip", () => {
-      expect(extensionButtonContainer.attr).toHaveBeenCalledWith(
-        "data-tooltip",
-        "Toggle Read/Unread",
-      );
+      expect(buttons().attr("data-tooltip")).toEqual("Toggle Read/Unread");
     });
 
     test("observed on load", () => {
@@ -80,9 +70,41 @@ describe("Extension", () => {
     });
 
     test("calls observe on MutationObserver with the added button", () => {
-      expect(extensionObserver.observe).toHaveBeenCalledWith(extensionButton, {
+      expect(extensionObserver.observe).toHaveBeenCalledWith(buttons().get(0), {
         attributeFilter: ["style"],
         attributes: true,
+      });
+    });
+
+    describe("when GMail renders a new toolbar", () => {
+      beforeEach(() => {
+        global.MutationObserver = RealMutationObserver;
+        document.body.innerHTML = toolbarHtml;
+        startExtension(mockGmail);
+      });
+
+      test("adds the button to a toolbar that replaces the old one", async () => {
+        $("[gh='mtb']").remove();
+        $(document.body).append(toolbarHtml);
+        await flush();
+        expect(buttons().length).toEqual(1);
+        expect(buttons().parent().hasClass("row")).toBe(true);
+      });
+
+      test("adds the button to each toolbar", async () => {
+        $(document.body).append(toolbarHtml);
+        await flush();
+        expect(buttons().length).toEqual(2);
+        $("[gh='mtb']").each((_, toolbar) =>
+          expect(buttons(toolbar).length).toEqual(1),
+        );
+      });
+
+      test("never adds a second button to a toolbar", async () => {
+        $(".row").append('<div class="new"></div>');
+        $(document.body).append("<div></div>");
+        await flush();
+        expect(buttons().length).toEqual(1);
       });
     });
 
@@ -105,6 +127,13 @@ describe("Extension", () => {
         );
         expect($(html).find(".nU").length).toEqual(59);
         expect($(html).find(".n1").length).toEqual(9);
+      });
+
+      test("clicking the toolbar button hides read categories", () => {
+        buttons().children().first().trigger("click");
+        expect($($(html).find('.TN[style*="display: none"]')).length).toEqual(
+          42,
+        );
       });
 
       describe("clicked once", () => {

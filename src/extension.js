@@ -147,6 +147,7 @@ function addsLabels(mutations) {
 // labels do not flicker.
 function observeLabels() {
   labelsObserver = new MutationObserver((mutations) => {
+    ensureButtons();
     if (!state.showUnread && addsLabels(mutations)) {
       applyState();
     }
@@ -157,19 +158,10 @@ function observeLabels() {
   });
 }
 
-function addButton() {
-  const button = gmail.tools.add_toolbar_button(
-    (() => {
-      const img = document.createElement("img");
-      img.src = chrome.runtime.getURL("icons/icon_16.png");
-      return img;
-    })(),
-    () => toggle(),
-    "asa",
-  );
+const BUTTON_CLASS = "gmail-toggle-button";
 
-  button.attr("data-tooltip", "Toggle Read/Unread");
-
+// Keeps the button visible when GMail hides toolbar items.
+function keepVisible(container) {
   const observer = new MutationObserver((mutationsList) => {
     for (let mutation of mutationsList) {
       if (
@@ -187,9 +179,43 @@ function addButton() {
     }
   });
 
-  observer.observe(button.get(0), {
+  observer.observe(container, {
     attributes: true,
     attributeFilter: ["style"],
+  });
+}
+
+// Adds the button to a toolbar, with the same markup as gmail.js toolbar buttons.
+function addButton(toolbar) {
+  const img = document.createElement("img");
+  img.src = chrome.runtime.getURL("icons/icon_16.png");
+
+  const button = $(document.createElement("div"))
+    .attr("class", "T-I J-J5-Ji gmailjs lS asa")
+    .append(img)
+    .on("click", () => toggle());
+
+  const container = $(document.createElement("div"))
+    .attr("class", `G-Ni J-J5-Ji ${BUTTON_CLASS}`)
+    .attr("data-tooltip", "Toggle Read/Unread")
+    .append(button);
+
+  toolbar.append(container);
+  keepVisible(container.get(0));
+}
+
+// GMail renders a new message list toolbar for each view, for example when a
+// label is selected, so add the button to every toolbar that doesn't have it.
+function ensureButtons() {
+  $("[gh='mtb']").each((_, element) => {
+    let toolbar = $(element);
+    if (toolbar.find(`.${BUTTON_CLASS}`).length > 0) {
+      return;
+    }
+    while (toolbar.children().length === 1) {
+      toolbar = toolbar.children().first();
+    }
+    addButton(toolbar);
   });
 }
 
@@ -209,7 +235,7 @@ function startExtension(gmail) {
   observeLabels();
 
   gmail.observe.on("load", () => {
-    addButton();
+    ensureButtons();
   });
 }
 
