@@ -157,6 +157,29 @@ describe("Extension", () => {
         expect(display("tr.zA.zE")).not.toEqual("none");
       });
 
+      test("shows the read row under the keyboard cursor", () => {
+        start("mail");
+        toggle();
+        $("tr.zA.yO").addClass("btb");
+        expect(display("tr.zA.yO")).not.toEqual("none");
+      });
+
+      test("shows every row in a list where a row is selected", () => {
+        start("mail");
+        toggle();
+        $("tr.zA.zE").addClass("x7");
+        expect(display("tr.zA.yO")).not.toEqual("none");
+        $("tr.zA.zE").removeClass("x7");
+        expect(display("tr.zA.yO")).toEqual("none");
+      });
+
+      test("shows a selected read row", () => {
+        start("mail");
+        toggle();
+        $("tr.zA.yO").addClass("x7");
+        expect(display("tr.zA.yO")).not.toEqual("none");
+      });
+
       test("hides read categories, labels, and mail when both are chosen", () => {
         start("both");
         toggle();
