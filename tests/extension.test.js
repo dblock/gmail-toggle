@@ -166,12 +166,10 @@ describe("Extension", () => {
         expect(display("tr.zA.yO")).not.toEqual("none");
       });
 
-      test("shows every row in a list where a row is selected", () => {
+      test("keeps read rows hidden when an unread row is selected", () => {
         start("mail");
         toggle();
         $("tr.zA.zE").addClass("x7");
-        expect(display("tr.zA.yO")).not.toEqual("none");
-        $("tr.zA.zE").removeClass("x7");
         expect(display("tr.zA.yO")).toEqual("none");
       });
 
@@ -194,6 +192,8 @@ describe("Extension", () => {
         toggle();
         $("tr.zA.yO").addClass("x7");
         expect(display("tr.zA.yO")).not.toEqual("none");
+        $("tr.zA.yO").removeClass("x7");
+        expect(display("tr.zA.yO")).toEqual("none");
       });
 
       test("hides read categories, labels, and mail when both are chosen", () => {

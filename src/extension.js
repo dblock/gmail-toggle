@@ -145,9 +145,10 @@ const hidesMail = () => state.hide !== "folders";
 // Hides read message rows with a stylesheet while the class is on the page,
 // so rows GMail renders later are hidden too. GMail's actions still reach
 // hidden rows, so never hide what an action would apply to: a selected row
-// (x7), the keyboard cursor's row (btb), or any row in a list where something
-// is selected, so select all, the Select menu, and keyboard shortcuts never
-// delete, archive, or move a conversation you can't see. Also hide GMail's
+// (x7) or the keyboard cursor's row (btb), so select all, the Select menu,
+// and keyboard shortcuts never delete, archive, or move a conversation you
+// can't see. Other read rows stay hidden while you select, so checking one
+// conversation doesn't move the rows under the pointer. Also hide GMail's
 // "Select all N conversations" link (.ya .x8), which selects mail on other
 // pages that can't be shown; show everything to use it.
 function addHideMailStyle() {
@@ -157,7 +158,7 @@ function addHideMailStyle() {
   const style = document.createElement("style");
   style.id = HIDE_MAIL_CLASS;
   style.textContent = [
-    `.${HIDE_MAIL_CLASS} table:not(:has(tr.zA.x7)) tr.zA.yO:not(.btb) { display: none !important; }`,
+    `.${HIDE_MAIL_CLASS} tr.zA.yO:not(.x7):not(.btb) { display: none !important; }`,
     `.${HIDE_MAIL_CLASS} .ya .x8[role="link"] { display: none !important; }`,
   ].join("\n");
   (document.head || document.documentElement).append(style);
