@@ -147,14 +147,19 @@ const hidesMail = () => state.hide !== "folders";
 // hidden rows, so never hide what an action would apply to: a selected row
 // (x7), the keyboard cursor's row (btb), or any row in a list where something
 // is selected, so select all, the Select menu, and keyboard shortcuts never
-// delete, archive, or move a conversation you can't see.
+// delete, archive, or move a conversation you can't see. Also hide GMail's
+// "Select all N conversations" link (.ya .x8), which selects mail on other
+// pages that can't be shown; show everything to use it.
 function addHideMailStyle() {
   if (document.getElementById(HIDE_MAIL_CLASS)) {
     return;
   }
   const style = document.createElement("style");
   style.id = HIDE_MAIL_CLASS;
-  style.textContent = `.${HIDE_MAIL_CLASS} table:not(:has(tr.zA.x7)) tr.zA.yO:not(.btb) { display: none !important; }`;
+  style.textContent = [
+    `.${HIDE_MAIL_CLASS} table:not(:has(tr.zA.x7)) tr.zA.yO:not(.btb) { display: none !important; }`,
+    `.${HIDE_MAIL_CLASS} .ya .x8[role="link"] { display: none !important; }`,
+  ].join("\n");
   (document.head || document.documentElement).append(style);
 }
 
