@@ -159,11 +159,76 @@ describe("Extension", () => {
         expect(display("tr.zA.zE")).not.toEqual("none");
       });
 
-      test("shows the read row under the keyboard cursor", () => {
+      test("hides the read row under the keyboard cursor", () => {
         start("mail");
         toggle();
         $("tr.zA.yO").addClass("btb");
-        expect(display("tr.zA.yO")).not.toEqual("none");
+        expect(display("tr.zA.yO")).toEqual("none");
+      });
+
+      describe("keyboard shortcuts", () => {
+        // Presses a key on a target and reports whether GMail would see it.
+        const press = (key, target = document.body) => {
+          const seen = jest.fn();
+          document.addEventListener("keydown", seen);
+          target.dispatchEvent(
+            new KeyboardEvent("keydown", {
+              key,
+              bubbles: true,
+              cancelable: true,
+            }),
+          );
+          document.removeEventListener("keydown", seen);
+          return seen.mock.calls.length > 0;
+        };
+
+        test("blocks actions on a hidden row under the cursor", () => {
+          start("mail");
+          toggle();
+          $("tr.zA.yO").addClass("btb");
+          expect(press("#")).toBe(false);
+          expect(press("e")).toBe(false);
+          expect(press("Delete")).toBe(false);
+        });
+
+        test("lets navigation through", () => {
+          start("mail");
+          toggle();
+          $("tr.zA.yO").addClass("btb");
+          expect(press("j")).toBe(true);
+          expect(press("x")).toBe(true);
+        });
+
+        test("lets actions through on a visible row under the cursor", () => {
+          start("mail");
+          toggle();
+          $("tr.zA.zE").addClass("btb");
+          expect(press("#")).toBe(true);
+        });
+
+        test("lets actions through on a selection", () => {
+          start("mail");
+          toggle();
+          $("tr.zA.yO").addClass("btb");
+          $("tr.zA.zE").addClass("x7");
+          expect(press("#")).toBe(true);
+        });
+
+        test("lets actions through when read mail is shown", () => {
+          start("mail");
+          $("tr.zA.yO").addClass("btb");
+          expect(press("#")).toBe(true);
+        });
+
+        test("leaves typing in a field alone", () => {
+          start("mail");
+          toggle();
+          $("tr.zA.yO").addClass("btb");
+          const input = document.createElement("input");
+          document.body.appendChild(input);
+          expect(press("e", input)).toBe(true);
+          input.remove();
+        });
       });
 
       test("keeps read rows hidden when an unread row is selected", () => {
