@@ -2,6 +2,7 @@
 
 ## 0.6.2 (Next)
 
+* [#29](https://github.com/dblock/gmail-toggle/pull/29): Show hidden read mail while any message is selected or under the keyboard cursor, so selecting all and deleting never touches mail you can't see - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ## 0.6.1 (2026/11/26)
