@@ -1,12 +1,11 @@
 # Changelog
 
-## 0.6.2 (Next)
+## 0.6.2 (2026/11/27)
 
 * [#29](https://github.com/dblock/gmail-toggle/pull/29): Show hidden read mail while any message is selected or under the keyboard cursor, so selecting all and deleting never touches mail you can't see - [@dblock](https://github.com/dblock).
 * [#30](https://github.com/dblock/gmail-toggle/pull/30): Hide GMail's link to select every conversation, including those on other pages, while read mail is hidden - [@dblock](https://github.com/dblock).
 * [#31](https://github.com/dblock/gmail-toggle/pull/31): Show only the selected read messages, not the whole list, so checking a conversation doesn't move the rows under the pointer - [@dblock](https://github.com/dblock).
 * [#33](https://github.com/dblock/gmail-toggle/pull/33): Hide the read message you just opened when you go back, and block keyboard shortcuts that would change a hidden message under the cursor instead - [@dblock](https://github.com/dblock).
-* Your contribution here.
 
 ## 0.6.1 (2026/11/26)
 
