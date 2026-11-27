@@ -111,7 +111,9 @@ describe("Extension", () => {
     describe("hiding read mail", () => {
       // GMail's message list: a read row (yO) and an unread row (zE).
       const rowsHtml =
-        '<table><tbody><tr class="zA yO"><td>Read</td></tr><tr class="zA zE"><td>Unread</td></tr></tbody></table>';
+        '<table><tbody><tr class="zA yO"><td>Read</td></tr><tr class="zA zE"><td>Unread</td></tr></tbody></table>' +
+        // The banner after selecting a whole page, with its link to select every conversation.
+        '<div class="ya yb"><span>All <b>2</b> conversations on this page are selected.</span> <span class="x8" role="link">Select all <b>9</b> conversations in Inbox</span></div>';
       let html;
       const start = (hide) => {
         if (hide) {
@@ -171,6 +173,20 @@ describe("Extension", () => {
         expect(display("tr.zA.yO")).not.toEqual("none");
         $("tr.zA.zE").removeClass("x7");
         expect(display("tr.zA.yO")).toEqual("none");
+      });
+
+      test("hides the link to select conversations on other pages", () => {
+        start("mail");
+        toggle();
+        expect(display(".ya .x8")).toEqual("none");
+        toggle();
+        expect(display(".ya .x8")).not.toEqual("none");
+      });
+
+      test("keeps the link to select every conversation when only labels are hidden", () => {
+        start();
+        toggle();
+        expect(display(".ya .x8")).not.toEqual("none");
       });
 
       test("shows a selected read row", () => {
