@@ -17,7 +17,7 @@ Open [GMail](https://mail.google.com) and click the extension's button in the to
 
 The button appears both in that toolbar and next to the "+" in the sidebar's Labels header. To choose one, click the extension's icon in Chrome's toolbar (or in its Extensions menu) while GMail is open, and pick Message toolbar, Labels header, or Both.
 
-The same menu chooses what the button hides: read labels and categories (the default), read messages in the message list, or both. Hidden messages are only hidden on your screen; nothing in GMail changes. Read messages that you select, or that the keyboard cursor is on, show again, so selecting all and deleting, archiving, or moving never touches mail you can't see. GMail's link to select every conversation, including those on other pages, is hidden too; show everything to use it.
+The same menu chooses what the button hides: read labels and categories (the default), read messages in the message list, or both. Hidden messages are only hidden on your screen; nothing in GMail changes. Read messages that you select show again, so selecting all and deleting, archiving, or moving never touches mail you can't see, and keyboard shortcuts that change a message do nothing while the keyboard cursor is on a hidden one. GMail's link to select every conversation, including those on other pages, is hidden too; show everything to use it.
 
 ## Contributing
 

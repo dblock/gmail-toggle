@@ -12,6 +12,10 @@ const loaderId = setInterval(() => {
   startExtension(window._gmailjs);
 }, 100);
 
+// Registered when the script loads, at document_start, so it runs before
+// GMail's own keyboard handlers.
+window.addEventListener("keydown", blockHiddenShortcuts, true);
+
 const HIDE_READ_KEY = "gmail-toggle.hideRead";
 const PLACEMENT_KEY = "gmail-toggle.placement";
 
@@ -144,11 +148,12 @@ const hidesMail = () => state.hide !== "folders";
 
 // Hides read message rows with a stylesheet while the class is on the page,
 // so rows GMail renders later are hidden too. GMail's actions still reach
-// hidden rows, so never hide what an action would apply to: a selected row
-// (x7) or the keyboard cursor's row (btb), so select all, the Select menu,
-// and keyboard shortcuts never delete, archive, or move a conversation you
-// can't see. Other read rows stay hidden while you select, so checking one
-// conversation doesn't move the rows under the pointer. Also hide GMail's
+// hidden rows, so never hide a selected row (x7): select all and the Select
+// menu then never delete, archive, or move a conversation you can't see.
+// Other read rows stay hidden while you select, so checking one conversation
+// doesn't move the rows under the pointer. GMail's keyboard cursor can rest on
+// a hidden row, for example the one you just read; blockHiddenShortcuts keeps
+// keyboard shortcuts from acting on it. Also hide GMail's
 // "Select all N conversations" link (.ya .x8), which selects mail on other
 // pages that can't be shown; show everything to use it.
 function addHideMailStyle() {
@@ -158,10 +163,61 @@ function addHideMailStyle() {
   const style = document.createElement("style");
   style.id = HIDE_MAIL_CLASS;
   style.textContent = [
-    `.${HIDE_MAIL_CLASS} tr.zA.yO:not(.x7):not(.btb) { display: none !important; }`,
+    `.${HIDE_MAIL_CLASS} tr.zA.yO:not(.x7) { display: none !important; }`,
     `.${HIDE_MAIL_CLASS} .ya .x8[role="link"] { display: none !important; }`,
   ].join("\n");
   (document.head || document.documentElement).append(style);
+}
+
+// GMail's shortcuts that change a conversation. Without a selection, they act
+// on the row under the keyboard cursor (btb).
+const ACTION_KEYS = new Set([
+  "#",
+  "e",
+  "y",
+  "m",
+  "!",
+  "v",
+  "l",
+  "b",
+  "s",
+  "I",
+  "U",
+  "+",
+  "=",
+  "-",
+  "_",
+  "Delete",
+]);
+
+// Swallows those shortcuts while the cursor's row is hidden and nothing is
+// selected, so they never act on a conversation you can't see. Navigation,
+// selecting, and opening still work, and typing in a field is left alone.
+function blockHiddenShortcuts(event) {
+  if (
+    !ACTION_KEYS.has(event.key) ||
+    event.ctrlKey ||
+    event.metaKey ||
+    event.altKey
+  ) {
+    return;
+  }
+  const target = event.target;
+  if (
+    target &&
+    (target.isContentEditable ||
+      /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName))
+  ) {
+    return;
+  }
+  if (document.querySelector("tr.zA.x7")) {
+    return;
+  }
+  const cursor = document.querySelector("tr.zA.btb");
+  if (cursor && window.getComputedStyle(cursor).display === "none") {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
 }
 
 function applyState() {
